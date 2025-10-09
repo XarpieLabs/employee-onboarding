@@ -1,0 +1,18 @@
+.venv/
+venv/
+__pycache__/
+
+dist/
+build/
+
+.env
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# ignore database files
+*.sqlite3
+*.db

@@ -2,14 +2,23 @@
 
 gamified employee onboarding platform with 3d experiences and multilingual support
 
-## setup
+## How to Setup (First time only)
 
 ```bash
-npm install
-npm run dev
+./install.sh
 ```
 
-open http://localhost:5173
+## How to Run. You need two terminals.
+1. Run the server in a terminal - 1. Keep it running.
+  ```bash
+  cd fe-server
+  ./run.sh
+  ```
+2. Make Changes. And update the build. Run in another terminal - 2:
+  ```bash
+  ./build.sh
+  ```
+3. Open http://localhost:3010
 
 ## what's inside
 
