@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
 import { DocusealForm } from '@docuseal/react';
 import { FileText, CheckCircle, X } from 'lucide-react';
+import icon1 from '../../Asset/icon1.png';
+import icon2 from '../../Asset/icon2.png';
+import icon3 from '../../Asset/icon3.png';
+import bgImage from '../../Asset/bg.png';
 
 export default function SigningProcess({ onComplete }) {
   const [showSigningForm, setShowSigningForm] = useState(false);
-  const [allDocumentsSigned, setAllDocumentsSigned] = useState(false);
 
   const documents = [
     {
       id: 1,
-      name: 'Employment Agreement',
-      description: 'Your official employment contract',
-      icon: '📄',
+      name: 'Employee Handbook',
+      description: 'Company policies, procedures, and guidelines',
+      icon: icon1,
       signed: false
     },
     {
       id: 2,
-      name: 'Non-Disclosure Agreement',
-      description: 'Confidentiality and data protection',
-      icon: '🔒',
+      name: 'Confidentiality Agreement',
+      description: 'Non-disclosure agreement for proprietary information',
+      icon: icon2,
       signed: false
     },
     {
       id: 3,
-      name: 'Company Policies',
-      description: 'Acknowledge company guidelines',
-      icon: '📋',
+      name: 'Emergency Contact Form',
+      description: 'Emergency contact information',
+      icon: icon3,
       signed: false
     }
   ];
@@ -36,11 +39,9 @@ export default function SigningProcess({ onComplete }) {
     setShowSigningForm(true);
   };
 
-  const handleDocumentSigned = () => {
+  const handleMarkAllCompleted = () => {
     const updatedDocs = documentStatus.map(doc => ({ ...doc, signed: true }));
     setDocumentStatus(updatedDocs);
-    setAllDocumentsSigned(true);
-    setShowSigningForm(false);
   };
 
   const handleCloseForm = () => {
@@ -48,9 +49,13 @@ export default function SigningProcess({ onComplete }) {
   };
 
   const handleFormCompleted = () => {
-    // Called when DocuSeal form is completed
-    handleDocumentSigned();
+    const updatedDocs = documentStatus.map(doc => ({ ...doc, signed: true }));
+    setDocumentStatus(updatedDocs);
+    setShowSigningForm(false);
   };
+
+  const allDocumentsSigned = documentStatus.every(doc => doc.signed);
+  const signedCount = documentStatus.filter(doc => doc.signed).length;
 
   return (
     <div style={{ 
@@ -61,180 +66,243 @@ export default function SigningProcess({ onComplete }) {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 'clamp(1rem, 3vw, 2rem)',
-      background: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)'
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative'
     }}>
-      <div style={{ 
-        maxWidth: '1000px', 
-        width: '100%',
-        marginBottom: 'clamp(1.5rem, 3vw, 2rem)'
-      }}>
-        <h2 style={{ 
-          fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
-          fontWeight: 'bold', 
-          color: '#fff',
-          textAlign: 'center',
-          marginBottom: '1rem'
-        }}>
-          Document Signing
-        </h2>
-        <p style={{ 
-          fontSize: 'clamp(0.9rem, 2vw, 1.1rem)', 
-          color: '#cbd5e1',
-          textAlign: 'center',
-          marginBottom: '2rem'
-        }}>
-          Please review and sign the following documents to complete your onboarding
-        </p>
-      </div>
-
       <div style={{
         width: '100%',
-        maxWidth: '1000px',
+        maxWidth: '1100px',
         background: 'white',
-        borderRadius: '16px',
-        padding: showSigningForm ? '0' : 'clamp(2rem, 4vw, 3rem)',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-        overflow: 'hidden'
+        borderRadius: '24px',
+        overflow: 'hidden',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
       }}>
         {!showSigningForm ? (
           <>
+            {/* Header */}
             <div style={{
-              display: 'grid',
-              gap: '1.5rem',
-              marginBottom: '2rem'
+              background: 'linear-gradient(135deg, #0d9488 0%, #0891b2 100%)',
+              padding: 'clamp(1.5rem, 3vw, 2rem)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderRadius: '24px 24px 0 0'
             }}>
-              {documentStatus.map((doc) => (
-                <div
-                  key={doc.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1.25rem',
-                    background: doc.signed ? '#f0fdf4' : '#f9fafb',
-                    border: doc.signed ? '2px solid #22c55e' : '2px solid #e5e7eb',
-                    borderRadius: '12px',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  <div style={{
-                    fontSize: '2.5rem',
-                    flexShrink: 0
-                  }}>
-                    {doc.icon}
-                  </div>
-                  
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{
-                      fontSize: 'clamp(1rem, 2vw, 1.125rem)',
-                      fontWeight: '600',
-                      color: '#1f2937',
-                      margin: '0 0 0.25rem 0'
-                    }}>
-                      {doc.name}
-                    </h3>
-                    <p style={{
-                      fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                      color: '#6b7280',
-                      margin: 0
-                    }}>
-                      {doc.description}
-                    </p>
-                  </div>
-
-                  {doc.signed && (
-                    <CheckCircle 
-                      size={32} 
-                      color="#22c55e"
-                      style={{ flexShrink: 0 }}
-                    />
-                  )}
-                </div>
-              ))}
+              <h2 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '600',
+                color: 'white',
+                margin: 0
+              }}>
+                Human resources Documents
+              </h2>
+              <div style={{
+                background: 'white',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '12px',
+                fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                fontWeight: '600',
+                color: '#0d9488'
+              }}>
+                {signedCount}/3
+              </div>
             </div>
 
-            {allDocumentsSigned && (
-              <div style={{
-                padding: '1rem',
-                background: '#d1fae5',
-                borderRadius: '8px',
-                marginBottom: '1.5rem',
-                border: '1px solid #52b788'
-              }}>
-                <p style={{
-                  margin: 0,
-                  fontSize: 'clamp(0.9rem, 2vw, 1rem)',
-                  color: '#065f46',
-                  textAlign: 'center',
-                  fontWeight: '500'
-                }}>
-                  ✓ All documents signed successfully! You can now continue.
-                </p>
-              </div>
-            )}
-
+            {/* Documents List */}
             <div style={{
-              display: 'flex',
-              gap: '1rem',
-              flexWrap: 'wrap'
+              padding: 'clamp(2rem, 4vw, 3rem)'
             }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem'
+              }}>
+                {documentStatus.map((doc) => (
+                  <div
+                    key={doc.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1.5rem',
+                      padding: '1.5rem',
+                      background: '#f8fafc',
+                      borderRadius: '16px',
+                      border: '1px solid #e2e8f0'
+                    }}
+                  >
+                    {/* Icon */}
+                    <div style={{
+                      width: '64px',
+                      height: '64px',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <img 
+                        src={doc.icon} 
+                        alt={doc.name}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain'
+                        }}
+                      />
+                    </div>
+
+                    {/* Document Info */}
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{
+                        fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
+                        fontWeight: '600',
+                        color: '#1e293b',
+                        margin: '0 0 0.25rem 0'
+                      }}>
+                        {doc.name}
+                      </h3>
+                      <p style={{
+                        fontSize: 'clamp(0.9rem, 1.8vw, 1rem)',
+                        color: '#64748b',
+                        margin: 0
+                      }}>
+                        {doc.description}
+                      </p>
+                    </div>
+
+                    {/* Status Badge */}
+                    {doc.signed && (
+                      <div style={{
+                        padding: '0.75rem 1.75rem',
+                        fontSize: 'clamp(0.95rem, 1.8vw, 1.05rem)',
+                        fontWeight: '600',
+                        color: '#059669',
+                        background: '#d1fae5',
+                        borderRadius: '12px',
+                        minWidth: '100px',
+                        textAlign: 'center'
+                      }}>
+                        Signed
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Cheat Button - Mark All Completed */}
               {!allDocumentsSigned && (
+                <div style={{
+                  marginTop: '1.5rem',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}>
+                  <button
+                    onClick={handleMarkAllCompleted}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
+                      fontWeight: '500',
+                      color: '#6b7280',
+                      background: '#f3f4f6',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#e5e7eb';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#f3f4f6';
+                    }}
+                  >
+                    Mark All as Completed
+                  </button>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div style={{
+                marginTop: '2rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }}>
                 <button
                   onClick={handleStartSigning}
+                  disabled={allDocumentsSigned}
                   style={{
                     flex: 1,
                     minWidth: '200px',
                     padding: '1rem 2rem',
-                    fontSize: 'clamp(0.95rem, 2vw, 1.05rem)',
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
                     fontWeight: '600',
                     color: 'white',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: allDocumentsSigned ? '#d1d5db' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     border: 'none',
                     borderRadius: '12px',
-                    cursor: 'pointer',
+                    cursor: allDocumentsSigned ? 'not-allowed' : 'pointer',
+                    opacity: allDocumentsSigned ? 0.6 : 1,
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                    boxShadow: allDocumentsSigned ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+                    if (!allDocumentsSigned) {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                    if (!allDocumentsSigned) {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                    }
                   }}
                 >
-                  Start E-Signing Process
+                  E-Sign Documents
                 </button>
-              )}
 
-              <button
-                onClick={onComplete}
-                disabled={!allDocumentsSigned}
-                className="btn"
-                style={{
-                  flex: 1,
-                  minWidth: '200px',
-                  opacity: allDocumentsSigned ? 1 : 0.5,
-                  cursor: allDocumentsSigned ? 'pointer' : 'not-allowed',
-                  background: allDocumentsSigned ? '#10b981' : '#d1d5db',
-                  padding: '1rem 2rem',
-                  fontSize: 'clamp(0.95rem, 2vw, 1.05rem)',
-                  fontWeight: '600',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px'
-                }}
-              >
-                {allDocumentsSigned ? 'Continue to Welcome Message →' : 'Complete Signing to Continue'}
-              </button>
+                <button
+                  onClick={onComplete}
+                  disabled={!allDocumentsSigned}
+                  style={{
+                    flex: 1,
+                    minWidth: '200px',
+                    padding: '1rem 2rem',
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    fontWeight: '600',
+                    color: 'white',
+                    background: allDocumentsSigned ? '#10b981' : '#d1d5db',
+                    border: 'none',
+                    borderRadius: '12px',
+                    cursor: allDocumentsSigned ? 'pointer' : 'not-allowed',
+                    opacity: allDocumentsSigned ? 1 : 0.6,
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (allDocumentsSigned) {
+                      e.currentTarget.style.background = '#059669';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (allDocumentsSigned) {
+                      e.currentTarget.style.background = '#10b981';
+                    }
+                  }}
+                >
+                  {allDocumentsSigned ? 'Complete Signing Process →' : 'Complete Signing to Continue'}
+                </button>
+              </div>
             </div>
           </>
         ) : (
           <div style={{
             position: 'relative'
           }}>
-            {/* Header */}
+            {/* DocuSeal Form Header */}
             <div style={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               padding: '1rem 1.5rem',
@@ -342,7 +410,7 @@ export default function SigningProcess({ onComplete }) {
                   Cancel
                 </button>
                 <button
-                  onClick={handleDocumentSigned}
+                  onClick={handleFormCompleted}
                   style={{
                     padding: '0.625rem 1.5rem',
                     fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',

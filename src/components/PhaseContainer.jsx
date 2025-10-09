@@ -8,11 +8,11 @@ import SigningProcess from "./Signing/SigningProcess";
 import HeyGenAI from "./HeyGen/HeyGenAI";
 import RoleSelector from "./Role/RoleSelector";
 import TeamHierarchy from "./Team/TeamHierarchy";
-import HRPoshModule from "./HRModules/HRPoshModule"; 
+import HRModuleSelector from "./HRModules/HRModuleSelector";
 import Certificate from "./Certificate/Certificate";
 import logo from "../Asset/logo.png";
 import logoDark from "../Asset/logoDark.png";
-import { ChevronDown, HelpCircle, Globe } from "lucide-react";
+import { ChevronDown, HelpCircle, Globe, SkipForward } from "lucide-react";
 
 const PHASES = [
   { id: 1, title: "Welcome", subtitle: "Welcome to IndiVillage", label: "welcome" },
@@ -40,6 +40,7 @@ export default function PhaseContainer() {
   const [userName, setUserName] = useState("Employee Name");
   const [showAboutDropdown, setShowAboutDropdown] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showJumpToStep, setShowJumpToStep] = useState(false);
 
   const current = PHASES.find((p) => p.id === step);
 
@@ -55,6 +56,7 @@ export default function PhaseContainer() {
       setTimeout(() => {
         setStep(nextStep);
         setAnimating(false);
+        setShowJumpToStep(false); // Close dropdown after jump
       }, 300);
     }
   }
@@ -230,8 +232,9 @@ export default function PhaseContainer() {
 
       case 9:
         return <TeamHierarchy onComplete={() => goToStep(step + 1)} />;
-        case 10:
-  return <HRPoshModule onComplete={() => goToStep(step + 1)} />; 
+
+      case 10:
+        return <HRModuleSelector onComplete={() => goToStep(step + 1)} />;
 
       case 13:
         return <Certificate userName={userName} role={selectedRole} onComplete={() => goToStep(step + 1)} />;
@@ -314,6 +317,117 @@ export default function PhaseContainer() {
             marginLeft: step === 1 ? 'auto' : '0', 
             flexWrap: 'wrap' 
           }}>
+            {/* Jump to Step Dropdown - Only show after step 1 */}
+            {step > 1 && (
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <button
+                  className="header-btn"
+                  onClick={() => setShowJumpToStep(!showJumpToStep)}
+                  title="Jump to Step"
+                >
+                  <SkipForward style={{ 
+                    width: 'clamp(12px, 2.5vw, 16px)', 
+                    height: 'clamp(12px, 2.5vw, 16px)', 
+                    marginRight: '4px' 
+                  }} />
+                  <span className="hidden sm:inline">Jump</span>
+                </button>
+                {showJumpToStep && (
+                  <div style={{
+                    position: 'absolute',
+                    right: 0,
+                    marginTop: '8px',
+                    width: 'clamp(200px, 30vw, 280px)',
+                    maxHeight: '400px',
+                    overflowY: 'auto',
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+                    padding: '8px 0',
+                    zIndex: 50,
+                    border: '1px solid #e5e7eb'
+                  }}>
+                    <div style={{
+                      padding: '8px 12px',
+                      fontSize: 'clamp(10px, 1.8vw, 12px)',
+                      color: '#9ca3af',
+                      fontWeight: '600',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      Jump to Step
+                    </div>
+                    {PHASES.map((phase) => (
+                      <button
+                        key={phase.id}
+                        onClick={() => goToStep(phase.id)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: 'clamp(8px, 1.5vw, 10px) clamp(12px, 2.5vw, 16px)',
+                          fontSize: 'clamp(11px, 2vw, 13px)',
+                          color: step === phase.id ? '#667eea' : '#374151',
+                          fontWeight: step === phase.id ? '600' : '400',
+                          backgroundColor: step === phase.id ? '#ede9fe' : 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (step !== phase.id) {
+                            e.currentTarget.style.backgroundColor = '#f3f4f6';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (step !== phase.id) {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }
+                        }}
+                      >
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          fontSize: '10px',
+                          fontWeight: '600',
+                          flexShrink: 0,
+                          backgroundColor: phase.id <= step ? '#667eea' : '#e5e7eb',
+                          color: phase.id <= step ? 'white' : '#9ca3af'
+                        }}>
+                          {phase.id}
+                        </span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ 
+                            fontWeight: '600',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {phase.label}
+                          </div>
+                          <div style={{ 
+                            fontSize: 'clamp(9px, 1.6vw, 11px)', 
+                            color: '#9ca3af',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {phase.subtitle}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <button
                 className="header-btn"
@@ -460,8 +574,8 @@ export default function PhaseContainer() {
               display: 'flex',
               alignItems: 'start',
               justifyContent: 'center',
-             padding: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'clamp(0.5rem, 2vw, 2rem)',
-             paddingTop: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'var(--content-top-offset)'
+              padding: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'clamp(0.5rem, 2vw, 2rem)',
+              paddingTop: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'var(--content-top-offset)'
             }}
           >
             <div style={{ width: '100%', maxWidth: '80rem' }}>
@@ -473,7 +587,7 @@ export default function PhaseContainer() {
                 } transition-all duration-300`}
               >
                 <div style={{ 
-                 minHeight: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? 'auto' : 'clamp(300px, 50vh, 400px)', 
+                  minHeight: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? 'auto' : 'clamp(300px, 50vh, 400px)', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center' 
