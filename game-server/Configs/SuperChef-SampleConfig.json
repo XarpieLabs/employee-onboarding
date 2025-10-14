@@ -1,0 +1,65 @@
+{
+  "vendorLogoUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/virgin_vendor_logo.png",
+  "customersCount": 5,
+  "lives": 3,
+  "bgImgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/virgin_background_03.png",
+  "customerImage": [
+    "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/ui_satellite_01.png",
+    "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/ui_satellite_02.png",
+    "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/ui_satellite_03.png",
+    "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/ui_satellite_04.png",
+    "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/ui_satellite_05.png"
+  ],
+  "catcherImageUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/Character_Blub.png",
+  "itemsData": [
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Good/item_3+Bar.png",
+      "dropProb": 10,
+      "isGood": true
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Good/item_4 Bar.png",
+      "dropProb": 10,
+      "isGood": true
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Good/item_4G.png",
+      "dropProb": 10,
+      "isGood": true
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Good/item_5G.png",
+      "dropProb": 10,
+      "isGood": true
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Good/item_Clouds.png",
+      "dropProb": 10,
+      "isGood": true
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Bad/item_No+Signal.png",
+      "dropProb": 10,
+      "isGood": false
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/FallingItems/Bad/item_Spam+Call.png",
+      "dropProb": 10,
+      "isGood": false
+    }
+  ],
+  "winRewards": [
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/Item_15days_Unlimited.png",
+      "rewardText": "15 days of Unlimited Data",
+      "winProb": 80,
+      "rewardId": "unlimited_15"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/virgin_media_assets/Item_1Week_Unlimited.png",
+      "rewardText": "1 week of Unlimited Data",
+      "winProb": 20,
+      "rewardId": "unlimited_week"
+    }
+  ]
+}

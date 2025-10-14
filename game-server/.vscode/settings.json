@@ -1,0 +1,29 @@
+{
+  "editor.codeLens": true,
+  "editor.formatOnSave": true,
+  "omnisharp.autoStart": true,
+  "explorer.autoReveal": "focusNoScroll",
+  "prettier.printWidth": 300,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "black-formatter.args": ["--line-length=300"],
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.gitmodules": true,
+    "**/*.booproj": true,
+    "build/": true,
+    "Build/": true,
+    "Library/": true,
+    "library/": true,
+    "obj/": true,
+    "Obj/": true,
+    "ProjectSettings/": true,
+    "temp/": true,
+    "Temp/": true,
+    ".venv/": true,
+    "__pycache__/": true
+  },
+  "cSpell.words": ["resizer", "venv"]
+}

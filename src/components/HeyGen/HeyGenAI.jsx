@@ -1,346 +1,276 @@
 import React, { useState } from 'react';
-import { MessageCircle, CheckCircle, X } from 'lucide-react';
+import { ExternalLink, MessageCircle, Video, CheckCircle } from 'lucide-react';
 
 export default function HeyGenAI({ onComplete }) {
-  const [sessionStarted, setSessionStarted] = useState(false);
-  const [conversationCompleted, setConversationCompleted] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
 
+  const heygenUrl = "https://labs.heygen.com/interactive-avatar/share?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJTaWxhc0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzU4MmVlOGZlMDcyYTQ4ZmRh%0D%0AM2JjNjgyNDFhZWZmNjYwXzQ1NjYwL3ByZXZpZXdfdGFyZ2V0LndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6Ijg1MDYwODI2M2M5MjQ3NzM4NGQ3NjIx%0D%0AODU3YWQwNTYxIiwidXNlcm5hbWUiOiI2YTY5Y2EyNTRmYTU0OTIzODliNzYxNjAyYzJlMTM2MCJ9";
 
-  const heygenUrl = "https://labs.heygen.com/guest/interactive-avatar/share?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJTaWxhc0hSX3B1YmxpYyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzU4MmVlOGZlMDcyYTQ4ZmRhM2JjNjgyNDFhZWZmNjYwXzQ1NjYwL3ByZXZpZXdfdGFyZ2V0LndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6Ijg1MDYwODI2M2M5MjQ3NzM4NGQ3NjIxODU3YWQwNTYxIiwidXNlcm5hbWUiOiI2YTY5Y2EyNTRmYTU0OTIzODliNzYxNjAyYzJlMTM2MCJ9";
-
-  const handleStartSession = () => {
-    setSessionStarted(true);
-  };
-
-  const handleIframeLoad = () => {
-    setIframeLoaded(true);
-  };
-
-  const handleMarkCompleted = () => {
-    setConversationCompleted(true);
-  };
-
-  const handleClose = () => {
-    if (conversationCompleted) {
-      onComplete();
-    }
+  const handleOpenHeyGen = () => {
+    window.open(heygenUrl, '_blank', 'noopener,noreferrer');
+    setHasOpened(true);
   };
 
   return (
-    <div style={{ 
-      width: '100%', 
+    <div style={{
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: sessionStarted ? '0' : 'clamp(1rem, 3vw, 2rem)',
-      background: sessionStarted ? '#000' : 'linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)'
+      padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
+      background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
+      position: 'relative'
     }}>
-      {!sessionStarted ? (
-        <>
-          <div style={{ 
-            maxWidth: '1000px', 
-            width: '100%',
-            marginBottom: 'clamp(1.5rem, 3vw, 2rem)'
-          }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
-              fontWeight: 'bold', 
-              color: '#fff',
-              textAlign: 'center',
-              marginBottom: '1rem'
-            }}>
-              Q&A with CEO
-            </h2>
-            <p style={{ 
-              fontSize: 'clamp(0.9rem, 2vw, 1.1rem)', 
-              color: '#cbd5e1',
-              textAlign: 'center',
-              marginBottom: '2rem'
-            }}>
-              Have an interactive conversation with our CEO using AI
-            </p>
-          </div>
-
-          <div style={{
-            width: '100%',
-            maxWidth: '1000px',
-            background: 'white',
-            borderRadius: '16px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              padding: 'clamp(2rem, 4vw, 3rem)',
-              textAlign: 'center'
-            }}>
-              <div style={{
-                width: '120px',
-                height: '120px',
-                margin: '0 auto 2rem',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)'
-              }}>
-                <MessageCircle size={60} color="white" />
-              </div>
-
-              <h3 style={{
-                fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
-                fontWeight: '600',
-                color: '#1f2937',
-                marginBottom: '1rem'
-              }}>
-                Meet Our CEO - AI Avatar
-              </h3>
-              <p style={{
-                fontSize: 'clamp(0.95rem, 2vw, 1.05rem)',
-                color: '#6b7280',
-                marginBottom: '2rem',
-                lineHeight: '1.6',
-                maxWidth: '600px',
-                margin: '0 auto 2rem'
-              }}>
-                Click below to start an interactive AI avatar session. Have a conversation with our CEO and learn about the company vision, culture, and your role.
-              </p>
-
-              <div style={{
-                padding: '1rem',
-                background: '#dbeafe',
-                borderRadius: '8px',
-                marginBottom: '2rem',
-                border: '1px solid #3b82f6',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                textAlign: 'left'
-              }}>
-                <MessageCircle size={20} color="#3b82f6" style={{ flexShrink: 0 }} />
-                <p style={{
-                  margin: 0,
-                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                  color: '#1e40af',
-                  fontWeight: '500'
-                }}>
-                  The AI avatar will load in this window. After your conversation, click "Mark as Completed" to continue.
-                </p>
-              </div>
-
-              <button
-                onClick={handleStartSession}
-                style={{
-                  padding: '1rem 2.5rem',
-                  fontSize: 'clamp(0.95rem, 2vw, 1.05rem)',
-                  fontWeight: '600',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  border: 'none',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.75rem'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
-                }}
-              >
-                Start Conversation
-                <MessageCircle size={18} />
-              </button>
-            </div>
-          </div>
-        </>
-      ) : (
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '1600px',
+        background: 'white',
+        borderRadius: 'clamp(24px, 3vw, 32px)',
+        overflow: 'hidden',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+        border: '3px solid white'
+      }}>
         <div style={{
-          width: '100%',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
+          padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
+          textAlign: 'center',
+          background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
           position: 'relative',
-          background: '#000'
+          overflow: 'hidden'
         }}>
-          {/* Loading indicator */}
-          {!iframeLoaded && (
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              zIndex: 10
-            }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderTopColor: '#667eea',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite',
-                margin: '0 auto 1rem'
-              }}></div>
-              <p style={{ color: 'white', fontSize: '1rem' }}>Loading AI Avatar...</p>
-            </div>
-          )}
-
-          {/* HeyGen Iframe - Full Screen */}
           <div style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            position: 'relative'
-          }}>
-            <iframe
-              src={heygenUrl}
-              onLoad={handleIframeLoad}
-              style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                left: 0
-              }}
-              allow="camera; microphone; autoplay; fullscreen"
-              allowFullScreen
-              title="HeyGen AI Avatar"
-            />
-          </div>
-
-          {/* Bottom Control Bar - Fixed Overlay */}
-          <div style={{
-            position: 'fixed',
-            bottom: 0,
+            position: 'absolute',
+            top: 0,
             left: 0,
             right: 0,
-            height: '80px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderTop: '1px solid #e5e7eb',
+            bottom: 0,
+            background: 'radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
+            pointerEvents: 'none'
+          }}></div>
+
+          <h1 style={{
+            fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
+            fontWeight: '700',
+            color: '#fde68a',
+            margin: '0 0 0.3rem 0',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+            position: 'relative',
+            letterSpacing: '0.02em',
+            lineHeight: '1.3'
+          }}>
+            Q&A with CEO
+          </h1>
+          <p style={{
+            fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+            color: 'white',
+            margin: 0,
+            fontWeight: '400',
+            position: 'relative',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
+          }}>
+            Interactive AI-powered conversation with our CEO
+          </p>
+        </div>
+
+        <div style={{
+          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+        }}>
+          <div style={{
+            width: 'clamp(70px, 10vw, 90px)',
+            height: 'clamp(70px, 10vw, 90px)',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 clamp(1rem, 3vw, 2rem)',
-            gap: '1rem',
-            zIndex: 1000,
-            boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'
+            justifyContent: 'center',
+            margin: '0 auto clamp(1.5rem, 3vw, 2rem)',
+            boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)'
+          }}>
+            <Video size={40} color="white" />
+          </div>
+
+          <p style={{
+            fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)',
+            color: '#1e3a5f',
+            textAlign: 'center',
+            lineHeight: '1.7',
+            marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
+            fontWeight: '500',
+            maxWidth: '800px',
+            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
+          }}>
+            Have a conversation with our CEO powered by AI. Ask questions about the company, 
+            our vision, culture, and anything else you would like to know!
+          </p>
+
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            borderRadius: '12px',
+            padding: 'clamp(1rem, 2vw, 1.5rem)',
+            marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
+            border: '2px solid #93c5fd',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+            maxWidth: '800px',
+            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
           }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem'
-            }}>
-              <div style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                background: conversationCompleted ? '#10b981' : '#ef4444',
-                animation: conversationCompleted ? 'none' : 'pulse 2s infinite'
-              }}></div>
-              <p style={{
-                margin: 0,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                color: '#6b7280',
-                fontWeight: '500'
-              }}>
-                {conversationCompleted ? 'Session Completed ✓' : 'Session Active'}
-              </p>
-            </div>
-
-            <div style={{
-              display: 'flex',
+              justifyContent: 'center',
               gap: '0.75rem',
-              alignItems: 'center'
+              marginBottom: '0.75rem'
             }}>
-              {!conversationCompleted && (
-                <button
-                  onClick={handleMarkCompleted}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                    fontWeight: '600',
-                    color: 'white',
-                    background: '#10b981',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.3)';
-                  }}
-                >
-                  Mark as Completed
-                </button>
-              )}
-
-              <button
-                onClick={handleClose}
-                disabled={!conversationCompleted}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                  fontWeight: '600',
-                  color: 'white',
-                  background: conversationCompleted ? '#667eea' : '#d1d5db',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: conversationCompleted ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.2s ease',
-                  opacity: conversationCompleted ? 1 : 0.6,
-                  whiteSpace: 'nowrap',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-                onMouseEnter={(e) => {
-                  if (conversationCompleted) {
-                    e.currentTarget.style.background = '#5a67d8';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (conversationCompleted) {
-                    e.currentTarget.style.background = '#667eea';
-                  }
-                }}
-              >
-                {conversationCompleted && <CheckCircle size={18} />}
-                Continue →
-              </button>
+              <MessageCircle size={20} color="#667eea" />
+              <h3 style={{
+                fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
+                fontWeight: '600',
+                color: '#1a365d',
+                margin: 0
+              }}>
+                Interactive AI Experience
+              </h3>
             </div>
+            <p style={{
+              fontSize: 'clamp(0.85rem, 1.7vw, 0.95rem)',
+              color: '#475569',
+              lineHeight: '1.6',
+              margin: 0,
+              textAlign: 'center'
+            }}>
+              Click below to open the interactive session in a new window. You can ask questions 
+              and have a real-time conversation with our AI-powered CEO avatar.
+            </p>
           </div>
 
-          <style>{`
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-            @keyframes pulse {
-              0%, 100% { opacity: 1; }
-              50% { opacity: 0.5; }
-            }
-          `}</style>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 'clamp(1rem, 2vw, 1.5rem)'
+          }}>
+            <button
+              onClick={handleOpenHeyGen}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: 'clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.5rem, 3vw, 2rem)',
+                fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)',
+                fontWeight: '700',
+                color: 'white',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                textTransform: 'capitalize',
+                letterSpacing: '0.02em'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.5), 0 3px 8px rgba(0, 0, 0, 0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1)';
+              }}
+            >
+              <ExternalLink size={20} />
+              Open Q&A Session
+            </button>
+          </div>
+
+          {hasOpened && (
+            <div style={{
+              padding: 'clamp(1rem, 2vw, 1.25rem)',
+              background: 'rgba(209, 250, 229, 0.9)',
+              borderRadius: '12px',
+              marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
+              border: '2px solid #52b788',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+              maxWidth: '800px',
+              margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
+            }}>
+              <p style={{
+                margin: 0,
+                fontSize: 'clamp(0.9rem, 1.9vw, 1.05rem)',
+                color: '#065f46',
+                textAlign: 'center',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
+              }}>
+                <CheckCircle size={20} />
+                Session opened! Complete your conversation and return here to continue.
+              </p>
+            </div>
+          )}
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 'clamp(1rem, 2vw, 1.5rem)'
+          }}>
+            <button
+              onClick={onComplete}
+              disabled={!hasOpened}
+              style={{
+                padding: 'clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.5rem, 3vw, 2rem)',
+                fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)',
+                fontWeight: '700',
+                color: '#1e5a8e',
+                background: hasOpened ? 'linear-gradient(135deg, #a3e635 0%, #84cc16 100%)' : '#9ca3af',
+                border: 'none',
+                borderRadius: '20px',
+                cursor: hasOpened ? 'pointer' : 'not-allowed',
+                boxShadow: hasOpened ? '0 6px 20px rgba(132, 204, 22, 0.35), 0 2px 6px rgba(0, 0, 0, 0.1)' : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                textTransform: 'capitalize',
+                letterSpacing: '0.02em',
+                opacity: hasOpened ? 1 : 0.6
+              }}
+              onMouseEnter={(e) => {
+                if (hasOpened) {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(132, 204, 22, 0.4), 0 3px 8px rgba(0, 0, 0, 0.15)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (hasOpened) {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.35), 0 2px 6px rgba(0, 0, 0, 0.1)';
+                }
+              }}
+            >
+              {hasOpened ? 'Continue to Your Role' : 'Complete Q&A First'}
+            </button>
+          </div>
+
+          <div style={{
+            padding: 'clamp(0.75rem, 1.5vw, 1rem)',
+            background: 'rgba(254, 243, 199, 0.9)',
+            borderRadius: '8px',
+            border: '2px solid #fbbf24',
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.06)',
+            maxWidth: '800px',
+            margin: '0 auto'
+          }}>
+            <p style={{
+              fontSize: 'clamp(0.8rem, 1.6vw, 0.85rem)',
+              color: '#92400e',
+              margin: 0,
+              lineHeight: '1.5',
+              textAlign: 'center'
+            }}>
+              <strong>Tip:</strong> Make sure pop-ups are enabled in your browser. 
+              The Q&A session will open in a new tab.
+            </p>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

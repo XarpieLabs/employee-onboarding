@@ -25,35 +25,35 @@ function PhaseModal({ phase, onClose }) {
     if (currentStep === 0) {
       return (
         <div className="phase-overview">
-          <h2 className="text-2xl font-bold mb-4">{phase.title}</h2>
-          <p className="text-gray-600 mb-6">{phase.description}</p>
+          <h2 className="text-xl font-bold mb-3">{phase.title}</h2>
+          <p className="text-gray-600 mb-4">{phase.description}</p>
           
-          <div className="phase-details grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="phase-details grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
             <div className="detail-card">
-              <Clock className="w-6 h-6 text-blue-500 mb-2" />
-              <h3 className="font-semibold">Duration</h3>
-              <p>{phase.estimatedTime}</p>
+              <Clock className="w-5 h-5 text-blue-500 mb-2" />
+              <h3 className="font-semibold text-sm">Duration</h3>
+              <p className="text-sm">{phase.estimatedTime}</p>
             </div>
             <div className="detail-card">
-              <Target className="w-6 h-6 text-green-500 mb-2" />
-              <h3 className="font-semibold">Objectives</h3>
-              <p>{phase.objectives?.length || 0} goals</p>
+              <Target className="w-5 h-5 text-green-500 mb-2" />
+              <h3 className="font-semibold text-sm">Goals</h3>
+              <p className="text-sm">{phase.objectives?.length || 0} items</p>
             </div>
             <div className="detail-card">
-              <Award className="w-6 h-6 text-yellow-500 mb-2" />
-              <h3 className="font-semibold">Type</h3>
-              <p className="capitalize">{phase.type}</p>
+              <Award className="w-5 h-5 text-yellow-500 mb-2" />
+              <h3 className="font-semibold text-sm">Type</h3>
+              <p className="text-sm capitalize">{phase.type}</p>
             </div>
           </div>
 
           {phase.objectives && (
-            <div className="objectives-list mb-6">
-              <h3 className="font-semibold mb-3">Learning Objectives:</h3>
-              <ul className="space-y-2">
+            <div className="objectives-list mb-4">
+              <h3 className="font-semibold mb-2 text-sm">Objectives:</h3>
+              <ul className="space-y-1">
                 {phase.objectives.map((objective, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>{objective}</span>
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-sm">{objective}</span>
                   </li>
                 ))}
               </ul>
@@ -62,10 +62,10 @@ function PhaseModal({ phase, onClose }) {
 
           <button 
             onClick={handleStartPhase}
-            className="btn-primary w-full flex items-center justify-center gap-2"
+            className="btn-primary w-full flex items-center justify-center gap-2 py-2"
           >
-            <Play className="w-5 h-5" />
-            Start Phase
+            <Play className="w-4 h-4" />
+            Start
           </button>
         </div>
       );

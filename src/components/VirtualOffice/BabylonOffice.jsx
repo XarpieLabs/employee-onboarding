@@ -148,18 +148,18 @@ function BabylonOffice({ onComplete }) {
 
     // Add instructions
     setTimeout(() => {
-      alert('Welcome to the IndiVillage Virtual Office! Click on different desk areas to explore and meet the teams.');
+      alert('Welcome! Click on desk areas to explore teams.');
     }, 1000);
   };
 
   const handleOfficeInteraction = (officeName, onInteractionComplete) => {
     const interactions = {
       'HR Desk': () => {
-        alert('👋 Welcome! HR Team here. We handle employee relations, policies, and support. Click OK to sign your documents digitally.');
+        alert('👋 HR Team here. We handle policies and support. Click OK to sign documents.');
         onInteractionComplete();
       },
       'Finance': () => {
-        alert('💰 Finance Team: We manage payroll, expenses, and financial planning. Your salary and benefits information is all set up!');
+        alert('💰 Finance Team: We manage payroll and expenses. Your info is set up!');
         onInteractionComplete();
       },
       'CEO Office': () => {

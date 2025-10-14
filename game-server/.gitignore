@@ -1,0 +1,23 @@
+.venv/
+venv/
+__pycache__/
+
+dist/
+build/
+
+.env
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# ignore Games list
+Games/
+
+# ignore database files
+*.sqlite3
+*.db
+
+READ_ONLY/

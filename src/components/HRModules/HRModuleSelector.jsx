@@ -10,38 +10,38 @@ export default function HRModuleSelector({ onComplete }) {
     {
       id: 'posh',
       title: 'POSH Training',
-      subtitle: 'Prevention of Sexual Harassment',
-      description: 'Learn about workplace ethics, professional conduct, and creating a respectful work environment.',
+      subtitle: 'Harassment Prevention',
+      description: 'Workplace ethics and professional conduct.',
       icon: Shield,
       isActive: true,
       color: '#667eea',
       bgColor: '#ede9fe',
-      estimatedTime: '15 min',
-      topics: ['Workplace Ethics', 'Professional Boundaries', 'Reporting']
+      estimatedTime: '10 min',
+      topics: ['Ethics', 'Boundaries', 'Reporting']
     },
     {
       id: 'leave',
       title: 'Leave Policy',
-      subtitle: 'Understanding Leave Management',
-      description: 'Comprehensive guide to company leave policies, types of leave, and application procedures.',
+      subtitle: 'Leave Management',
+      description: 'Company leave policies and procedures.',
       icon: FileText,
       isActive: false,
       color: '#10b981',
       bgColor: '#d1fae5',
-      estimatedTime: '10 min',
-      topics: ['Leave Types', 'Application', 'Balance']
+      estimatedTime: '8 min',
+      topics: ['Types', 'Application', 'Balance']
     },
     {
       id: 'ip',
-      title: 'Intellectual Property',
-      subtitle: 'IP Rights & Protection',
-      description: 'Understanding intellectual property rights, confidentiality agreements, and data protection.',
+      title: 'IP Rights',
+      subtitle: 'Intellectual Property',
+      description: 'IP rights and confidentiality agreements.',
       icon: BookOpen,
       isActive: false,
       color: '#f59e0b',
       bgColor: '#fef3c7',
-      estimatedTime: '12 min',
-      topics: ['IP Rights', 'Confidentiality', 'Data Security']
+      estimatedTime: '8 min',
+      topics: ['Rights', 'Confidentiality', 'Security']
     }
   ];
 
@@ -71,27 +71,27 @@ export default function HRModuleSelector({ onComplete }) {
     <div style={{
       width: '100%',
       minHeight: '100vh',
-      padding: 'clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem)',
+      padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.8rem, 2vw, 1.5rem)',
       background: 'linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%)'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(2rem, 4vw, 3rem)' }}>
+                <div style={{ textAlign: 'center', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
           <h2 style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+            fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
             fontWeight: 'bold',
             color: '#1f2937',
-            marginBottom: '1rem'
+            marginBottom: '0.5rem'
           }}>
-            HR Gamified Modules
+            HR Training
           </h2>
           <p style={{
-            fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
+            fontSize: 'clamp(0.9rem, 1.8vw, 1rem)',
             color: '#6b7280',
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            Complete interactive training modules to understand company policies and procedures
+            Complete required training modules
           </p>
         </div>
 

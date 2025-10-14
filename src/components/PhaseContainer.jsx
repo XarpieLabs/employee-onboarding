@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import WelcomeScreen from "./Welcome/WelcomeScreen";
 import AvatarSelection from "./Avatar/AvatarSelection";
 import CompanyInfoVideo from "./Video/CompanyInfoVideo";
 import OfficeTour from "./OfficeTour/OfficeTour";
@@ -9,13 +10,14 @@ import HeyGenAI from "./HeyGen/HeyGenAI";
 import RoleSelector from "./Role/RoleSelector";
 import TeamHierarchy from "./Team/TeamHierarchy";
 import HRModuleSelector from "./HRModules/HRModuleSelector";
+import CustomerQuiz from "./Customer/CustomerQuiz";
 import Certificate from "./Certificate/Certificate";
+import MemoryGame from "./Games/MemoryGame";
 import logo from "../Asset/logo.png";
-import logoDark from "../Asset/logoDark.png";
 import { ChevronDown, HelpCircle, Globe, SkipForward } from "lucide-react";
 
 const PHASES = [
-  { id: 1, title: "Welcome", subtitle: "Welcome to IndiVillage", label: "welcome" },
+ { id: 1, title: "Welcome", subtitle: "Welcome to IndiVillage", label: "welcome" },
   { id: 2, title: "Choose Avatar", subtitle: "Pick your avatar", label: "Choose Avatar" },
   { id: 3, title: "What It's Like to Join IndiVillage", subtitle: "Learn about our mission", label: "Joining IndiVillage" },
   { id: 4, title: "About your new office", subtitle: "Find your way around", label: "Office" },
@@ -56,7 +58,7 @@ export default function PhaseContainer() {
       setTimeout(() => {
         setStep(nextStep);
         setAnimating(false);
-        setShowJumpToStep(false); // Close dropdown after jump
+        setShowJumpToStep(false);
       }, 300);
     }
   }
@@ -80,135 +82,8 @@ export default function PhaseContainer() {
     switch (step) {
       case 1:
         return (
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            textAlign: 'center', 
-            width: '100%', 
-            padding: 'clamp(1rem, 3vw, 2rem)' 
-          }}>
-            <div style={{ marginBottom: 'clamp(1rem, 2vw, 1.5rem)' }}>
-              <img
-                src={logoDark}
-                alt="IndiVillage Technology"
-                style={{ 
-                  height: 'clamp(50px, 8vw, 80px)', 
-                  width: 'auto', 
-                  margin: '0 auto', 
-                  display: 'block' 
-                }}
-              />
-            </div>
-
-            <div style={{ 
-              maxWidth: '48rem', 
-              margin: '0 auto', 
-              display: 'flex', 
-              flexDirection: 'column', 
-              gap: 'clamp(1rem, 2vw, 1.5rem)' 
-            }}>
-              <p style={{ 
-                color: '#6b7280', 
-                fontSize: 'clamp(0.8rem, 2vw, 1rem)', 
-                margin: 0 
-              }}>
-                {t('welcome.employee')}
-              </p>
-
-              <h2 style={{ 
-                fontSize: 'clamp(1.25rem, 4vw, 2.25rem)', 
-                fontWeight: 'bold', 
-                color: '#111827', 
-                margin: 0,
-                lineHeight: 1.2
-              }}>
-                {t('welcome.greeting')}
-              </h2>
-
-              <p style={{ 
-                color: '#374151', 
-                fontSize: 'clamp(0.85rem, 2vw, 1rem)', 
-                lineHeight: '1.75', 
-                margin: 0 
-              }}>
-                {t('welcome.description')}{" "}
-                <span style={{ fontWeight: 'bold' }}>{t('welcome.interactive')}</span> {t('welcome.that_will')}
-              </p>
-
-              <ul style={{ 
-                textAlign: 'left', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: 'clamp(0.5rem, 1.5vw, 0.75rem)', 
-                margin: '0 auto', 
-                maxWidth: '36rem', 
-                padding: 0, 
-                listStyle: 'none' 
-              }}>
-                <li style={{ 
-                  display: 'flex', 
-                  alignItems: 'flex-start', 
-                  gap: 'clamp(0.5rem, 1.5vw, 0.75rem)' 
-                }}>
-                  <span style={{ fontSize: '1.25rem', marginTop: '0.25rem' }}>•</span>
-                  <span style={{ 
-                    color: '#374151', 
-                    fontSize: 'clamp(0.85rem, 2vw, 1rem)' 
-                  }}>
-                    {t('welcome.explore')}
-                  </span>
-                </li>
-                <li style={{ 
-                  display: 'flex', 
-                  alignItems: 'flex-start', 
-                  gap: 'clamp(0.5rem, 1.5vw, 0.75rem)' 
-                }}>
-                  <span style={{ fontSize: '1.25rem', marginTop: '0.25rem' }}>•</span>
-                  <span style={{ 
-                    color: '#374151', 
-                    fontSize: 'clamp(0.85rem, 2vw, 1rem)' 
-                  }}>
-                    {t('welcome.know_you')}
-                  </span>
-                </li>
-              </ul>
-
-              <p style={{ 
-                color: '#374151', 
-                fontSize: 'clamp(0.85rem, 2vw, 1rem)', 
-                lineHeight: '1.75', 
-                margin: 0 
-              }}>
-                {t('welcome.self_guided')}
-              </p>
-
-              <p style={{ 
-                color: '#111827', 
-                fontWeight: '600', 
-                fontSize: 'clamp(0.85rem, 2vw, 1rem)', 
-                marginTop: 'clamp(0.5rem, 1.5vw, 1.5rem)', 
-                margin: 0 
-              }}>
-                {t('welcome.get_started')}
-              </p>
-
-              <button
-                type="button"
-                className="btn"
-                onClick={() => goToStep(step + 1)}
-                style={{ 
-                  alignSelf: 'center', 
-                  marginTop: 'clamp(0.75rem, 2vw, 1rem)' 
-                }}
-              >
-                {t('welcome.button')}
-              </button>
-            </div>
-          </div>
+          <WelcomeScreen onGetStarted={() => goToStep(step + 1)} />
         );
-
       case 2:
         return <AvatarSelection onDone={handleAvatarSelection} logo={logo} />;
 
@@ -235,6 +110,11 @@ export default function PhaseContainer() {
 
       case 10:
         return <HRModuleSelector onComplete={() => goToStep(step + 1)} />;
+        case 11:
+  return <MemoryGame onComplete={() => goToStep(step + 1)} />;
+        
+      case 12:
+        return <CustomerQuiz onComplete={() => goToStep(step + 1)} />;
 
       case 13:
         return <Certificate userName={userName} role={selectedRole} onComplete={() => goToStep(step + 1)} />;
@@ -244,7 +124,7 @@ export default function PhaseContainer() {
           <div className="text-center space-y-6">
             <div className="space-y-4">
               <h3 style={{ 
-                fontSize: 'clamp(1.1rem, 3vw, 1.5rem)', 
+                fontSize: 'clamp(0.9rem, 2vw, 1rem)', 
                 fontWeight: '600', 
                 color: '#374151' 
               }}>
@@ -252,25 +132,25 @@ export default function PhaseContainer() {
               </h3>
               <p style={{ 
                 color: '#6b7280', 
-                maxWidth: '32rem', 
+                maxWidth: '20rem', 
                 margin: '0 auto', 
-                lineHeight: '1.6',
-                fontSize: 'clamp(0.875rem, 2vw, 1rem)'
+                lineHeight: '1.3',
+                fontSize: 'clamp(0.7rem, 1.4vw, 0.8rem)'
               }}>
                 {current.subtitle}
               </p>
               <div style={{ 
-                marginTop: 'clamp(1.5rem, 3vw, 2rem)', 
-                padding: 'clamp(1rem, 3vw, 1.5rem)', 
+                marginTop: 'clamp(0.6rem, 1.2vw, 0.8rem)', 
+                padding: 'clamp(0.5rem, 1.2vw, 0.6rem)', 
                 background: 'linear-gradient(135deg, #dbeafe 0%, #e9d5ff 100%)',
-                borderRadius: 'clamp(12px, 2vw, 20px)', 
+                borderRadius: 'clamp(6px, 1.2vw, 10px)', 
                 border: '1px solid #93c5fd' 
               }}>
                 <p style={{ 
                   color: '#6b7280', 
-                  fontSize: 'clamp(0.8rem, 2vw, 0.875rem)' 
+                  fontSize: 'clamp(0.65rem, 1.4vw, 0.7rem)' 
                 }}>
-                  {t('phase.coming_soon')}
+                  Coming Soon
                 </p>
               </div>
             </div>
@@ -280,20 +160,20 @@ export default function PhaseContainer() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', width: '100%', position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)' }}>
       <div
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm shadow-sm mobile-dark-header"
+        className="fixed-header mobile-dark-header"
         style={{ backgroundColor: 'rgba(19, 48, 73, 0.95)' }}
       >
         <div
           style={{
             width: '100%',
-            padding: 'clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1.5rem)',
+            padding: 'clamp(0.3rem, 1.2vw, 0.5rem) clamp(0.6rem, 1.5vw, 1rem)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: 'clamp(0.25rem, 1vw, 0.5rem)',
+            gap: 'clamp(0.2rem, 0.8vw, 0.4rem)',
             backgroundColor: 'rgba(19, 48, 73, 1)'
           }}
         >
@@ -302,7 +182,7 @@ export default function PhaseContainer() {
               src={logo}
               alt="IndiVillage"
               style={{ 
-                height: 'clamp(32px, 6vw, 48px)', 
+                height: 'clamp(24px, 4vw, 32px)', 
                 width: 'auto', 
                 display: 'block' 
               }}
@@ -312,12 +192,11 @@ export default function PhaseContainer() {
           <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
-            gap: 'clamp(4px, 0.8vw, 8px)', 
+            gap: 'clamp(3px, 0.6vw, 6px)', 
             flexShrink: 0, 
             marginLeft: step === 1 ? 'auto' : '0', 
             flexWrap: 'wrap' 
           }}>
-            {/* Jump to Step Dropdown - Only show after step 1 */}
             {step > 1 && (
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <button
@@ -326,9 +205,9 @@ export default function PhaseContainer() {
                   title="Jump to Step"
                 >
                   <SkipForward style={{ 
-                    width: 'clamp(12px, 2.5vw, 16px)', 
-                    height: 'clamp(12px, 2.5vw, 16px)', 
-                    marginRight: '4px' 
+                    width: 'clamp(10px, 2vw, 14px)', 
+                    height: 'clamp(10px, 2vw, 14px)', 
+                    marginRight: '3px' 
                   }} />
                   <span className="hidden sm:inline">Jump</span>
                 </button>
@@ -337,8 +216,8 @@ export default function PhaseContainer() {
                     position: 'absolute',
                     right: 0,
                     marginTop: '8px',
-                    width: 'clamp(200px, 30vw, 280px)',
-                    maxHeight: '400px',
+                    width: 'clamp(160px, 25vw, 220px)',
+                    maxHeight: '300px',
                     overflowY: 'auto',
                     backgroundColor: 'white',
                     borderRadius: '8px',
@@ -348,8 +227,8 @@ export default function PhaseContainer() {
                     border: '1px solid #e5e7eb'
                   }}>
                     <div style={{
-                      padding: '8px 12px',
-                      fontSize: 'clamp(10px, 1.8vw, 12px)',
+                      padding: '6px 8px',
+                      fontSize: 'clamp(9px, 1.5vw, 10px)',
                       color: '#9ca3af',
                       fontWeight: '600',
                       textTransform: 'uppercase',
@@ -367,8 +246,8 @@ export default function PhaseContainer() {
                           gap: '8px',
                           width: '100%',
                           textAlign: 'left',
-                          padding: 'clamp(8px, 1.5vw, 10px) clamp(12px, 2.5vw, 16px)',
-                          fontSize: 'clamp(11px, 2vw, 13px)',
+                          padding: 'clamp(6px, 1.2vw, 8px) clamp(8px, 2vw, 12px)',
+                          fontSize: 'clamp(10px, 1.8vw, 11px)',
                           color: step === phase.id ? '#667eea' : '#374151',
                           fontWeight: step === phase.id ? '600' : '400',
                           backgroundColor: step === phase.id ? '#ede9fe' : 'transparent',
@@ -391,8 +270,8 @@ export default function PhaseContainer() {
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '24px',
-                          height: '24px',
+                          width: '20px',
+                          height: '20px',
                           borderRadius: '50%',
                           fontSize: '10px',
                           fontWeight: '600',
@@ -412,7 +291,7 @@ export default function PhaseContainer() {
                             {phase.label}
                           </div>
                           <div style={{ 
-                            fontSize: 'clamp(9px, 1.6vw, 11px)', 
+                            fontSize: 'clamp(8px, 1.4vw, 9px)', 
                             color: '#9ca3af',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
@@ -445,7 +324,7 @@ export default function PhaseContainer() {
                   position: 'absolute',
                   right: 0,
                   marginTop: '8px',
-                  width: 'clamp(120px, 22vw, 160px)',
+                  width: 'clamp(100px, 18vw, 130px)',
                   backgroundColor: 'white',
                   borderRadius: '8px',
                   boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
@@ -463,8 +342,8 @@ export default function PhaseContainer() {
                         gap: '8px',
                         width: '100%',
                         textAlign: 'left',
-                        padding: 'clamp(6px, 1.5vw, 8px) clamp(12px, 2.5vw, 16px)',
-                        fontSize: 'clamp(11px, 2vw, 14px)',
+                        padding: 'clamp(5px, 1.2vw, 6px) clamp(8px, 2vw, 12px)',
+                        fontSize: 'clamp(10px, 1.8vw, 12px)',
                         color: i18n.language === lang.code ? '#667eea' : '#374151',
                         fontWeight: i18n.language === lang.code ? '600' : '400',
                         backgroundColor: 'transparent',
@@ -484,17 +363,17 @@ export default function PhaseContainer() {
 
             <button className="header-btn">
               <HelpCircle style={{ 
-                width: 'clamp(12px, 2.5vw, 16px)', 
-                height: 'clamp(12px, 2.5vw, 16px)', 
-                marginRight: '4px' 
+                width: 'clamp(10px, 2vw, 14px)', 
+                height: 'clamp(10px, 2vw, 14px)', 
+                marginRight: '3px' 
               }} />
               <span className="hidden sm:inline">{t('nav.help')}</span>
             </button>
 
             {selectedAvatar && (
               <div style={{
-                width: 'clamp(28px, 5vw, 40px)',
-                height: 'clamp(28px, 5vw, 40px)',
+                width: 'clamp(24px, 4vw, 32px)',
+                height: 'clamp(24px, 4vw, 32px)',
                 borderRadius: '50%',
                 overflow: 'hidden',
                 border: '2px solid white',
@@ -513,9 +392,8 @@ export default function PhaseContainer() {
 
       {step > 1 && (
         <div
-          className="fixed left-0 right-0 z-40 backdrop-blur-sm shadow-sm mobile-dark-progress"
+          className="fixed-progress mobile-dark-progress"
           style={{
-            top: 'clamp(58px, 9vw, 76px)',
             backgroundColor: 'rgba(19, 48, 73, 0.95)'
           }}
         >
@@ -546,7 +424,8 @@ export default function PhaseContainer() {
       <div style={{ 
         width: '100%', 
         position: 'relative', 
-        paddingTop: step > 1 ? 'clamp(115px, 17vw, 145px)' : '0' 
+        paddingTop: step > 1 ? 'calc(var(--header-height) + var(--progress-height) + 0.5rem)' : '0px',
+        paddingBottom: '1rem'
       }}>
         {step === 1 ? (
           <div style={{ 
@@ -554,7 +433,7 @@ export default function PhaseContainer() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
-            padding: 'clamp(1rem, 3vw, 2rem)'
+            padding: 'clamp(0.5rem, 2vw, 1rem)'
           }}>
             <div
               className={`${
@@ -570,39 +449,40 @@ export default function PhaseContainer() {
         ) : (
           <div 
             style={{
-              minHeight: '100vh',
+              minHeight: 'calc(100vh - var(--header-height) - var(--progress-height))',
               display: 'flex',
               alignItems: 'start',
               justifyContent: 'center',
-              padding: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'clamp(0.5rem, 2vw, 2rem)',
-              paddingTop: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? '0' : 'var(--content-top-offset)'
+             padding: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 11 || step === 12 || step === 13) ? '0' : 'clamp(0.3rem, 1vw, 0.75rem)',
+              paddingTop: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 12 || step === 13) ? '0' : 'clamp(0.3rem, 1vw, 0.75rem)'
             }}
           >
-            <div style={{ width: '100%', maxWidth: '80rem' }}>
+            <div style={{ width: '100%', maxWidth: (step === 4) ? '100%' : '900px' }}>
               <div
-                className={`${(step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 13) ? "" : "phase-card"} ${
+                className={`${(step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step == 11 || step === 12 || step === 13) ? "" : "phase-card"} ${
                   animating
                     ? "opacity-0 translate-y-8"
                     : "opacity-100 translate-y-0"
                 } transition-all duration-300`}
               >
                 <div style={{ 
-                  minHeight: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 13) ? 'auto' : 'clamp(300px, 50vh, 400px)', 
+                  minHeight: (step === 2 || step === 3 || step === 4 || step === 5 || step === 6 || step === 7 || step === 10 || step === 12 || step === 13) ? 'auto' : 'clamp(150px, 25vh, 250px)', 
                   display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center' 
+                  alignItems: 'flex-start', 
+                  justifyContent: 'center',
+                  width: '100%'
                 }}>
                   {renderPhaseContent()}
                 </div>
 
-                {(step !== 2 && step !== 3 && step !== 4 && step !== 5 && step !== 6 && step !== 7 && step !== 8 && step !== 10 && step !== 13) && (
+                {(step !== 2 && step !== 3 && step !== 4 && step !== 5 && step !== 6 && step !== 7 && step !== 8 && step !== 10 && step !== 12 && step !== 13) && (
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     flexWrap: 'wrap',
-                    gap: 'clamp(0.5rem, 2vw, 1rem)',
-                    marginTop: 'clamp(1rem, 3vw, 2rem)'
+                    gap: 'clamp(0.4rem, 1.5vw, 0.75rem)',
+                    marginTop: 'clamp(0.75rem, 1.5vw, 1rem)'
                   }}>
                     <button
                       className="btn"
@@ -614,7 +494,7 @@ export default function PhaseContainer() {
 
                     <div style={{ 
                       display: 'flex', 
-                      gap: 'clamp(0.5rem, 1.5vw, 0.75rem)' 
+                      gap: 'clamp(0.4rem, 1.2vw, 0.6rem)' 
                     }}>
                       <button
                         className="btn"

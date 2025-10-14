@@ -1,0 +1,55 @@
+{
+  "vendorLogoUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/Starbucks_Logo_01.png",
+  "picksCount": 3,
+  "bgImgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/UI_CrateBaloonsBg.png",
+  "itemsData": [
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/200dollar_amazon_coupon.png",
+      "rewardText": "$200 Amazon Coupon",
+      "rewardId": "first",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/3month_netflix_coupon.png",
+      "rewardText": "Netflix 3 Month Coupon",
+      "rewardId": "second",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/branded_tote_bag.png",
+      "rewardText": "Branded Tote Bag",
+      "rewardId": "third",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/100dollar_amazon_coupon.png",
+      "rewardText": "$100 Amazon Coupon",
+      "rewardId": "fourth",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/pastry_with_any_beverage.png",
+      "rewardText": "Win a pastry with any beverage",
+      "rewardId": "fifth",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/starbucks_notebook.png",
+      "rewardText": "Win Starbucks Notebook",
+      "rewardId": "sixth",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/starbucks_keychain.png",
+      "rewardText": "Win Starbucks Keychain",
+      "rewardId": "seventh",
+      "winProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Starbucks_assets/starbucks_mug.png",
+      "rewardText": "Win Starbucks Mug",
+      "rewardId": "eighth",
+      "winProb": 30
+    }
+  ]
+}

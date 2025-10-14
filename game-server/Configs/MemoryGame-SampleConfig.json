@@ -1,0 +1,94 @@
+{
+  "vendorLogoUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Google_logo.png",
+  "questionsCount": 3,
+  "itemsPerQCount": 4,
+  "bgImgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Google_BG.png",
+  "images": [
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_10_pro_fold.png",
+      "itemName": "apple",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_10_pro.png",
+      "itemName": "explorer",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_10.png",
+      "itemName": "bmw",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_Buds_2_pro.png",
+      "itemName": "facebook",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_Buds_2a.png",
+      "itemName": "lakers",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_watch_4.png",
+      "itemName": "linkedin",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixel_watch_performance_loop_band.png",
+      "itemName": "pokemon",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixelsnap_case_for_pixel_10_pro_fold.png",
+      "itemName": "hyundai",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixelsnap_case_for_pixel_10.png",
+      "itemName": "redbull",
+      "selectProb": 10
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Pixelsnap_charger_with_stand.png",
+      "itemName": "twitter",
+      "selectProb": 10
+    }
+  ],
+  "winRewards": [
+    {
+      "range": "0-0",
+      "rewards": [
+        {
+          "imgUrl": "https://xarpielabs.github.io/assets-repo-for-platform/company-logos/apple-logo.png",
+          "rewardText": "20% off on iPhone",
+          "winProb": 100,
+          "rewardId": "1_1"
+        },
+        {
+          "imgUrl": "https://xarpielabs.github.io/assets-repo-for-platform/company-logos/explorer-logo.jpg",
+          "rewardText": "free internet",
+          "winProb": 0,
+          "rewardId": "1_2"
+        }
+      ]
+    },
+    {
+      "range": "1-5",
+      "rewards": [
+        {
+          "imgUrl": "https://xarpielabs.github.io/assets-repo-for-platform/company-logos/apple-logo.png",
+          "rewardText": "20% off on iPhone",
+          "winProb": 50,
+          "rewardId": "2_1"
+        },
+        {
+          "imgUrl": "https://xarpielabs.github.io/assets-repo-for-platform/company-logos/explorer-logo.jpg",
+          "rewardText": "free internet",
+          "winProb": 50,
+          "rewardId": "2_2"
+        }
+      ]
+    }
+  ]
+}

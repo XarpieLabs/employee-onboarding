@@ -1,0 +1,54 @@
+{
+  "vendorLogoUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/Krispy_Kreme_logo.png",
+  "bgImgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/Google_Assets/Google_BG.png",
+  "spokeData": [
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/20percentoff.png",
+      "rewardText": "20% off",
+      "winProb": 29.5,
+      "rewardId": "first"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/branded_tshirt.png",
+      "rewardText": "Get a branded T-shirt",
+      "winProb": 10.5,
+      "rewardId": "second"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/buy1dozen_get1free.png",
+      "rewardText": "Buy 1 Get 1 Free",
+      "winProb": 10,
+      "rewardId": "third"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/cappuccino.png",
+      "rewardText": "Get a Cappuccino",
+      "winProb": 10,
+      "rewardId": "forth"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/collectible_sticker_pack.png",
+      "rewardText": "Collect a sticker",
+      "winProb": 10,
+      "rewardId": "fifth"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/doughnut_keychain.png",
+      "rewardText": "Get a Keychain",
+      "winProb": 10,
+      "rewardId": "sixth"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/dozen_original_glazed.png",
+      "rewardText": "Get a dozen glazed donuts",
+      "winProb": 10,
+      "rewardId": "seventh"
+    },
+    {
+      "imgUrl": "https://platform-assets-cdn.s3.ap-south-1.amazonaws.com/KrispyKreme_Assets/eclairs_doughnut.png",
+      "rewardText": "Get a Eclair",
+      "winProb": 10,
+      "rewardId": "eighth"
+    }
+  ]
+}
