@@ -13,9 +13,6 @@ build/
 # Logs
 *.log
 
-# ignore Games list
-Games/
-
 # ignore database files
 *.sqlite3
 *.db
