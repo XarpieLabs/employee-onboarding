@@ -13,7 +13,8 @@ export default function MemoryGame({ onComplete }) {
   const iframeRef = useRef(null);
 
   // CHANGE THIS URL TO YOUR GAME URL
-  const gameUrl = "http://0.0.0.0:3011/games/mini-game-memory/index.html?gameplayId=shs_sample_mini-game-memory";
+  // const gameUrl = "http://0.0.0.0:3011/games/mini-game-memory/index.html";
+  const gameUrl = "https://onboardingunityrunner.superhuge-ld.com/games/mini-game-memory/index.html";
 
   // Listen for postMessage from Unity game (FIXED VERSION)
   useEffect(() => {
