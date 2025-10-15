@@ -4,7 +4,7 @@ import { FileText, CheckCircle, X } from 'lucide-react';
 import icon1 from '../../Asset/icon1.png';
 import icon2 from '../../Asset/icon2.png';
 import icon3 from '../../Asset/icon3.png';
-import bgImage from '../../Asset/bg.png';
+import bgImage from '../../Asset/hr-bg.png';
 
 export default function SigningProcess({ onComplete }) {
   const documents = [

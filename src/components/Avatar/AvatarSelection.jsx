@@ -18,7 +18,7 @@ const HOBBIES_EMOJIS = [
   { emoji: '🎬', label: 'Movies' },
   { emoji: '📷', label: 'Photography' },
   { emoji: '🎸', label: 'Guitar' },
-  { emoji: '🌲', label: 'Nature' },
+  { emoji: '🌍', label: 'Nature' },
   { emoji: '💻', label: 'Coding' },
   { emoji: '🎯', label: 'Goals' },
   { emoji: '😊', label: 'Happy' },
@@ -67,7 +67,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 'clamp(0.75rem, 2vw, 2.5rem) clamp(0.5rem, 1.5vw, 2rem) clamp(1rem, 2vw, 3rem)',
+      padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
       background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
       position: 'relative'
     }}>
@@ -76,7 +76,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
         width: '100%', 
         maxWidth: '1400px',
         background: 'white',
-        borderRadius: 'clamp(16px, 2.5vw, 32px)',
+        borderRadius: 'clamp(24px, 3vw, 32px)',
         overflow: 'hidden',
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
         border: '3px solid white',
@@ -85,7 +85,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
       }}>
         {/* Header Section with Gradient */}
         <div style={{
-          padding: 'clamp(1rem, 2.5vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
+          padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
           textAlign: 'center',
           background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
           position: 'relative',
@@ -102,7 +102,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
           }}></div>
 
           <h1 style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+            fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
             fontWeight: '700',
             color: '#fde68a',
             margin: '0 0 0.3rem 0',
@@ -114,7 +114,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             About You
           </h1>
           <p style={{
-            fontSize: 'clamp(0.75rem, 1.6vw, 1rem)',
+            fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
             fontWeight: '400',
@@ -128,39 +128,38 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
         {/* Content Section */}
         <div style={{
           background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1rem, 2vw, 2rem) clamp(0.75rem, 1.5vw, 1.5rem)'
+          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
         }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-            gap: 'clamp(1rem, 2vw, 2rem)',
+            gap: 'clamp(1.5rem, 2.5vw, 2rem)',
             maxWidth: '1200px',
-            margin: '0 auto clamp(1rem, 2vw, 2rem)'
+            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
           }}>
             {/* Left Side - Photo Upload */}
             <div style={{
               background: 'white',
-              borderRadius: 'clamp(12px, 2vw, 16px)',
-              padding: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+              borderRadius: '16px',
+              padding: 'clamp(1.5rem, 3vw, 2.5rem)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 'clamp(0.75rem, 1.5vw, 1.25rem)',
-              minHeight: 'clamp(350px, 50vw, 500px)'
+              gap: 'clamp(1rem, 2vw, 1.25rem)',
+              minHeight: 'auto'
             }}>
               <div style={{
                 position: 'relative',
-                width: 'clamp(150px, 25vw, 200px)',
-                height: 'clamp(150px, 25vw, 200px)',
+                width: 'clamp(150px, 35vw, 200px)',
+                height: 'clamp(150px, 35vw, 200px)',
                 borderRadius: '50%',
                 background: uploadedPhoto ? 'transparent' : '#4a9d95',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                overflow: 'visible',
-                border: '4px solid #e5e7eb',
-                flexShrink: 0
+                overflow: 'hidden',
+                border: '4px solid #e5e7eb'
               }}>
                 {uploadedPhoto ? (
                   <img
@@ -169,8 +168,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '50%'
+                      objectFit: 'cover'
                     }}
                   />
                 ) : (
@@ -182,7 +180,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}>
-                    <User size={80} strokeWidth={2} style={{ width: 'clamp(50px, 10vw, 80px)', height: 'clamp(50px, 10vw, 80px)' }} />
+                    <User size={60} strokeWidth={2} />
                   </div>
                 )}
                 
@@ -192,18 +190,17 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     position: 'absolute',
                     bottom: 'clamp(4px, 1vw, 8px)',
                     right: 'clamp(4px, 1vw, 8px)',
-                    width: 'clamp(35px, 7vw, 50px)',
-                    height: 'clamp(35px, 7vw, 50px)',
+                    width: 'clamp(40px, 8vw, 50px)',
+                    height: 'clamp(40px, 8vw, 50px)',
                     borderRadius: '50%',
                     background: '#4a9d95',
-                    border: '3px solid white',
+                    border: '4px solid white',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                    transition: 'all 0.3s ease',
-                    overflow: 'visible'
+                    transition: 'all 0.3s ease'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'scale(1.1)';
@@ -212,16 +209,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     e.currentTarget.style.transform = 'scale(1)';
                   }}
                 >
-                  <Plus 
-                    size={24} 
-                    color="white" 
-                    strokeWidth={3} 
-                    style={{ 
-                      width: 'clamp(18px, 3.5vw, 24px)', 
-                      height: 'clamp(18px, 3.5vw, 24px)',
-                      flexShrink: 0
-                    }} 
-                  />
+                  <Plus size={20} color="white" strokeWidth={3} />
                   <input
                     id="photo-upload"
                     type="file"
@@ -234,7 +222,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
 
               <div style={{ textAlign: 'center' }}>
                 <h3 style={{
-                  fontSize: 'clamp(0.95rem, 2vw, 1.3rem)',
+                  fontSize: 'clamp(1.1rem, 2.2vw, 1.3rem)',
                   fontWeight: '700',
                   color: '#1a365d',
                   margin: '0 0 0.5rem 0'
@@ -242,7 +230,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                   Upload Your Photo
                 </h3>
                 <p style={{
-                  fontSize: 'clamp(0.75rem, 1.5vw, 0.95rem)',
+                  fontSize: 'clamp(0.85rem, 1.7vw, 0.95rem)',
                   color: '#4a9d95',
                   margin: 0
                 }}>
@@ -254,8 +242,8 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             {/* Right Side - Form Inputs */}
             <div style={{
               background: 'white',
-              borderRadius: 'clamp(12px, 2vw, 16px)',
-              padding: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+              borderRadius: '16px',
+              padding: 'clamp(1.5rem, 3vw, 2.5rem)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               display: 'flex',
               flexDirection: 'column',
@@ -265,10 +253,10 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               <div>
                 <label style={{
                   display: 'block',
-                  fontSize: 'clamp(0.85rem, 1.7vw, 1.05rem)',
+                  fontSize: 'clamp(0.95rem, 1.9vw, 1.05rem)',
                   fontWeight: '700',
                   color: '#1a365d',
-                  marginBottom: 'clamp(0.5rem, 1vw, 0.75rem)'
+                  marginBottom: '0.75rem'
                 }}>
                   What are your hobbies?
                 </label>
@@ -276,13 +264,13 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                   type="text"
                   value={hobbiesText}
                   onChange={(e) => setHobbiesText(e.target.value)}
-                  placeholder="Type your hobbies here"
+                  placeholder="Type your favorite movie here"
                   style={{
                     width: '100%',
-                    padding: 'clamp(0.65rem, 1.5vw, 0.875rem)',
-                    fontSize: 'clamp(0.8rem, 1.6vw, 1rem)',
+                    padding: '0.875rem',
+                    fontSize: 'clamp(0.9rem, 1.8vw, 1rem)',
                     border: '2px solid #d1d5db',
-                    borderRadius: 'clamp(8px, 1.5vw, 10px)',
+                    borderRadius: '10px',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     fontFamily: 'Roboto, sans-serif',
@@ -301,10 +289,10 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               <div>
                 <label style={{
                   display: 'block',
-                  fontSize: 'clamp(0.85rem, 1.7vw, 1.05rem)',
+                  fontSize: 'clamp(0.95rem, 1.9vw, 1.05rem)',
                   fontWeight: '700',
                   color: '#1a365d',
-                  marginBottom: 'clamp(0.5rem, 1vw, 0.75rem)'
+                  marginBottom: '0.75rem'
                 }}>
                   What's your favorite movie
                 </label>
@@ -315,10 +303,10 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                   placeholder="Type your favorite movie here"
                   style={{
                     width: '100%',
-                    padding: 'clamp(0.65rem, 1.5vw, 0.875rem)',
-                    fontSize: 'clamp(0.8rem, 1.6vw, 1rem)',
+                    padding: '0.875rem',
+                    fontSize: 'clamp(0.9rem, 1.8vw, 1rem)',
                     border: '2px solid #d1d5db',
-                    borderRadius: 'clamp(8px, 1.5vw, 10px)',
+                    borderRadius: '10px',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     fontFamily: 'Roboto, sans-serif',
@@ -334,13 +322,13 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               </div>
 
               {/* Emoji Selection */}
-              <div style={{ flex: 1, minHeight: 0 }}>
+              <div style={{ flex: 1 }}>
                 <label style={{
                   display: 'block',
-                  fontSize: 'clamp(0.85rem, 1.7vw, 1.05rem)',
+                  fontSize: 'clamp(0.95rem, 1.9vw, 1.05rem)',
                   fontWeight: '700',
                   color: '#1a365d',
-                  marginBottom: 'clamp(0.5rem, 1vw, 0.75rem)'
+                  marginBottom: '0.75rem'
                 }}>
                   Describe yourself using emojis (max 3)
                 </label>
@@ -348,9 +336,10 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                 {/* Selected Emojis Display + Add Button */}
                 <div style={{
                   display: 'flex',
-                  gap: 'clamp(0.5rem, 1.5vw, 1rem)',
+                  gap: 'clamp(0.75rem, 2vw, 1rem)',
                   alignItems: 'center',
-                  flexWrap: 'wrap'
+                  flexWrap: 'wrap',
+                  justifyContent: 'center'
                 }}>
                   {/* Show selected emojis */}
                   {selectedHobbies.map((emoji, index) => (
@@ -358,8 +347,8 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                       key={index}
                       onClick={() => handleEmojiSelect(emoji)}
                       style={{
-                        width: 'clamp(60px, 12vw, 90px)',
-                        height: 'clamp(60px, 12vw, 90px)',
+                        width: 'clamp(70px, 15vw, 90px)',
+                        height: 'clamp(70px, 15vw, 90px)',
                         borderRadius: '50%',
                         background: 'white',
                         border: '3px solid #4a9d95',
@@ -368,9 +357,8 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                         justifyContent: 'center',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
-                        fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        flexShrink: 0
+                        fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.05)';
@@ -390,8 +378,8 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     <button
                       onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                       style={{
-                        width: 'clamp(60px, 12vw, 90px)',
-                        height: 'clamp(60px, 12vw, 90px)',
+                        width: 'clamp(70px, 15vw, 90px)',
+                        height: 'clamp(70px, 15vw, 90px)',
                         borderRadius: '50%',
                         background: '#e0f2f1',
                         border: '3px dashed #4a9d95',
@@ -400,8 +388,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                         justifyContent: 'center',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        flexShrink: 0
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.05)';
@@ -412,16 +399,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                         e.currentTarget.style.background = '#e0f2f1';
                       }}
                     >
-                      <Plus 
-                        size={40} 
-                        color="#4a9d95" 
-                        strokeWidth={3} 
-                        style={{ 
-                          width: 'clamp(24px, 6vw, 40px)', 
-                          height: 'clamp(24px, 6vw, 40px)',
-                          flexShrink: 0
-                        }} 
-                      />
+                      <Plus size={35} color="#4a9d95" strokeWidth={3} />
                     </button>
                   )}
                 </div>
@@ -429,17 +407,17 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                 {/* Emoji Picker Dropdown */}
                 {showEmojiPicker && (
                   <div style={{
-                    marginTop: 'clamp(0.75rem, 1.5vw, 1rem)',
-                    padding: 'clamp(1rem, 2vw, 1.5rem)',
+                    marginTop: '1rem',
+                    padding: '1.5rem',
                     background: 'white',
                     border: '2px solid #4a9d95',
-                    borderRadius: 'clamp(8px, 1.5vw, 12px)',
+                    borderRadius: '12px',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                   }}>
                     <div style={{
-                      fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
+                      fontSize: 'clamp(0.8rem, 1.6vw, 0.85rem)',
                       color: '#6b7280',
-                      marginBottom: 'clamp(0.75rem, 1.5vw, 1rem)',
+                      marginBottom: '1rem',
                       fontWeight: '500'
                     }}>
                       Choose up to {3 - selectedHobbies.length} more emoji{3 - selectedHobbies.length !== 1 ? 's' : ''}
@@ -447,9 +425,9 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
 
                     <div style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(35px, 8vw, 50px), 1fr))',
-                      gap: 'clamp(0.5rem, 1vw, 0.75rem)',
-                      maxHeight: 'clamp(150px, 30vh, 200px)',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))',
+                      gap: '0.75rem',
+                      maxHeight: '200px',
                       overflowY: 'auto'
                     }}>
                       {HOBBIES_EMOJIS.map((item, index) => (
@@ -465,10 +443,10 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                           style={{
                             width: '100%',
                             aspectRatio: '1',
-                            fontSize: 'clamp(1.25rem, 3vw, 2rem)',
+                            fontSize: '2rem',
                             background: selectedHobbies.includes(item.emoji) ? '#d1fae5' : '#f9fafb',
                             border: selectedHobbies.includes(item.emoji) ? '2px solid #10b981' : '1px solid #e5e7eb',
-                            borderRadius: 'clamp(6px, 1vw, 8px)',
+                            borderRadius: '8px',
                             cursor: selectedHobbies.includes(item.emoji) ? 'not-allowed' : 'pointer',
                             opacity: selectedHobbies.includes(item.emoji) ? 0.5 : 1,
                             transition: 'all 0.2s ease',
@@ -498,8 +476,8 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                 {/* Selected count */}
                 {selectedHobbies.length > 0 && (
                   <div style={{
-                    marginTop: 'clamp(0.75rem, 1.5vw, 1rem)',
-                    fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
+                    marginTop: '1rem',
+                    fontSize: 'clamp(0.8rem, 1.6vw, 0.85rem)',
                     color: '#6b7280',
                     fontWeight: '500'
                   }}>
@@ -511,20 +489,20 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               {/* Save Button */}
               <div style={{
                 marginTop: 'auto',
-                paddingTop: 'clamp(0.5rem, 1.5vw, 1rem)'
+                paddingTop: '1rem'
               }}>
                 <button
                   onClick={handleContinue}
                   disabled={!uploadedPhoto}
                   style={{
                     width: '100%',
-                    padding: 'clamp(0.65rem, 1.5vw, 0.9rem) clamp(1rem, 2.5vw, 2rem)',
-                    fontSize: 'clamp(0.85rem, 1.8vw, 1.1rem)',
+                    padding: 'clamp(0.75rem, 1.8vw, 0.9rem) clamp(1.5rem, 3vw, 2rem)',
+                    fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
                     fontWeight: '700',
                     color: '#1e5a8e',
                     background: uploadedPhoto ? 'linear-gradient(135deg, #a3e635 0%, #84cc16 100%)' : '#9ca3af',
                     border: 'none',
-                    borderRadius: 'clamp(8px, 1.5vw, 12px)',
+                    borderRadius: '12px',
                     cursor: uploadedPhoto ? 'pointer' : 'not-allowed',
                     boxShadow: uploadedPhoto ? '0 6px 20px rgba(132, 204, 22, 0.35)' : 'none',
                     transition: 'all 0.3s ease',

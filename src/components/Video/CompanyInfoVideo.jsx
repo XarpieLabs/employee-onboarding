@@ -77,17 +77,16 @@ export default function CompanyInfoVideo({ onComplete }) {
       background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)'
     }}>
       <div style={{
-  width: '100%',
-  maxWidth: '1400px',
-  background: 'white',
-  borderRadius: 'clamp(24px, 3vw, 32px)',
-  overflow: 'hidden',
-  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-  border: '3px solid white',  // CHANGED: white outline
-border: '3px solid white',
-  outlineOffset: '0px'  // ADDED: no gap
+        width: '100%',
+        maxWidth: '1400px',
+        background: 'white',
+        borderRadius: 'clamp(24px, 3vw, 32px)',
+        overflow: 'hidden',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+        border: '3px solid white',
+        outlineOffset: '0px'
       }}>
- <div style={{
+        <div style={{
           background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
           padding: 'clamp(0.85rem, 1.8vw, 1.25rem) clamp(0.75rem, 1vw, 1rem)',
           borderBottom: '2px solid #3a8d85'

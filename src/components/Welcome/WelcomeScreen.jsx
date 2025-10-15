@@ -47,37 +47,41 @@ return (
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
+      padding: 'clamp(1rem, 2vw, 2rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
       background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
       position: 'relative'
     }}>
       {/* Logo */}
       <div style={{
-        marginBottom: 'clamp(0.5rem, 1vw, 0.75rem)',
-        animation: 'fadeInDown 0.8s ease-out'
+        marginBottom: 'clamp(1.5rem, 3vw, 2rem)',
+        animation: 'fadeInDown 0.8s ease-out',
+        zIndex: 1
       }}>
         <img
           src={logoDark}
           alt="IndiVillage Technology"
           style={{
-            height: 'clamp(25px, 3.5vw, 35px)',
+            height: 'clamp(50px, 7vw, 80px)',
             width: 'auto'
           }}
         />
       </div>
+      
       {/* Main Card */}
       <div style={{
-  width: '100%',
-  maxWidth: '1400px',
-  background: 'white',
-  borderRadius: 'clamp(24px, 3vw, 32px)',
-  overflow: 'hidden',
-  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-  border: '3px solid white',  // CHANGED: white outline
-  outlineOffset: '0px',  // ADDED: no gap between borders
+        width: '100%',
+        maxWidth: '1400px',
+        background: 'white',
+        borderRadius: 'clamp(24px, 3vw, 32px)',
+        overflow: 'hidden',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+        border: '3px solid white',
+        outline: '3px solid #4a9d95',
+        outlineOffset: '0px',
         animation: 'scaleIn 0.8s ease-out 0.2s both',
         transform: 'scale(0.95)',
-        opacity: 0
+        opacity: 0,
+        zIndex: 2
       }}>
         {/* Header Section with Gradient */}
         <div style={{
@@ -130,7 +134,7 @@ return (
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 'clamp(1rem, 2vw, 1.5rem)',
+            gap: 'clamp(0.5rem, 1vw, 0.75rem)', // 👈 REDUCED GAP (was 1rem, 2vw, 1.5rem)
             marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
             justifyItems: 'center'
           }}>
@@ -148,7 +152,7 @@ return (
                   maxWidth: '160px'
                 }}
               >
-                {/* Image Circle with Shadow */}
+                {/* Image Circle - NO HOVER ANIMATION */}
                 <div style={{
                   width: 'clamp(80px, 12vw, 100px)',
                   height: 'clamp(80px, 12vw, 100px)',
@@ -159,17 +163,8 @@ return (
                   background: 'white',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.25), 0 0 0 5px white, 0 0 0 6px #cbd5e0';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 5px white, 0 0 0 6px #cbd5e0';
+                  justifyContent: 'center'
+                  // 👈 REMOVED: transition, cursor, onMouseEnter, onMouseLeave
                 }}
                 >
                   <img

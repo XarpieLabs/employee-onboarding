@@ -213,7 +213,7 @@ body, html {
 }
 
 .scrollable-header {
-  background-color: rgba(19, 48, 73, 0.95);
+background-color: rgba(13, 49, 43, 0.95);
   position: relative;
   z-index: 1001;
 }
@@ -256,7 +256,7 @@ body, html {
   padding: clamp(6px, 1.2vw, 10px) clamp(6px, 1.2vw, 10px);
   margin: 0;
   width: 100%;
-  background-color: rgba(19, 48, 73, 1);
+background-color: rgba(13, 49, 43, 1);
   gap: var(--checkpoint-gap);
   position: relative;
   overflow-x: auto;
@@ -357,7 +357,7 @@ body, html {
 
 .mobile-dark-header,
 .mobile-dark-progress {
-  background-color: rgba(19, 48, 73, 1) !important;
+ background-color: rgba(13, 49, 43, 1) !important;
   color: #ffffff;
 }
 

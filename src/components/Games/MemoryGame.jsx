@@ -6,34 +6,65 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Gamepad2, CheckCircle } from 'lucide-react';
 
-export default function GamePlayer({ onComplete }) {
+export default function MemoryGame({ onComplete }) {
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showManualComplete, setShowManualComplete] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const iframeRef = useRef(null);
 
   // CHANGE THIS URL TO YOUR GAME URL
-  const gameUrl = "https://unityrunner2.superhuge-ld.com/games/MemoryGame/index.html?gameplayId=shs_c1e5gmemc65whct7";
+  const gameUrl = "http://0.0.0.0:3011/games/mini-game-memory/index.html?gameplayId=shs_sample_mini-game-memory";
 
-  // Listen for postMessage from game
+  // Listen for postMessage from Unity game (FIXED VERSION)
   useEffect(() => {
     const handleMessage = (event) => {
-      // Accept messages from game completion
-      if (event.data.type === 'GAME_COMPLETED' || event.data === 'GAME_COMPLETED') {
+      console.log('React: Received message from Unity:', event.data);
+      console.log('Message origin:', event.origin);
+      console.log('Message type:', typeof event.data);
+      
+      // Multiple ways Unity can send completion message
+      if (
+        event.data === 'GAME_COMPLETED' ||
+        event.data.type === 'GAME_COMPLETED' ||
+        event.data.message === 'GAME_COMPLETED' ||
+        event.data.status === 'completed' ||
+        event.data.gameComplete === true
+      ) {
+        console.log('React: Game completed detected! Activating continue button...');
         setGameCompleted(true);
+        
+        // Optional: Show success notification
+        setTimeout(() => {
+          console.log('Continue button is now active!');
+        }, 500);
+      } else {
+        console.log('Message received but not recognized as game completion');
       }
     };
 
+    // Listen to window messages (messages come from iframe to parent)
     window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
+    console.log('React: Listening for Unity game completion messages...');
+    
+    // Also listen to iframe directly (backup method)
+    if (iframeRef.current) {
+      console.log('React: Also listening to iframe directly');
+    }
+    
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      console.log('React: Stopped listening for messages');
+    };
+  }, [gameStarted]); // Added gameStarted dependency
 
   // Show manual complete button after 2 minutes
   useEffect(() => {
     if (!gameStarted) return;
 
+    console.log('Starting 2-minute timer for manual complete button');
     const timer = setTimeout(() => {
       if (!gameCompleted) {
+        console.log('2 minutes passed - showing manual complete button');
         setShowManualComplete(true);
       }
     }, 120000); // 2 minutes
@@ -42,10 +73,18 @@ export default function GamePlayer({ onComplete }) {
   }, [gameCompleted, gameStarted]);
 
   const handleStartGame = () => {
+    console.log('Starting game...');
     setGameStarted(true);
   };
 
   const handleManualComplete = () => {
+    console.log('Manual complete triggered');
+    setGameCompleted(true);
+  };
+
+  // TEST BUTTON: Remove after testing
+  const handleTestComplete = () => {
+    console.log('TEST: Simulating game completion');
     setGameCompleted(true);
   };
 
@@ -60,19 +99,42 @@ export default function GamePlayer({ onComplete }) {
       background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
       position: 'relative'
     }}>
-      {/* Main Card */}
+      {/* TEST BUTTON - REMOVE AFTER TESTING */}
+      {gameStarted && !gameCompleted && (
+        <button
+          onClick={handleTestComplete}
+          style={{
+            position: 'fixed',
+            top: '10px',
+            right: '10px',
+            padding: '10px 20px',
+            background: 'red',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            zIndex: 9999,
+            fontWeight: 'bold'
+          }}
+        >
+          TEST: Complete Game
+        </button>
+      )}
+
+      {/* Main Card - WIDER VERSION */}
       <div style={{ 
-        width: '100%', 
-        maxWidth: '1400px',
+        width: '50vw',
+        maxWidth: '50vw',
         background: 'white',
         borderRadius: 'clamp(24px, 3vw, 32px)',
         overflow: 'hidden',
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
         border: '3px solid white',
         outline: '3px solid #4a9d95',
-        outlineOffset: '0px'
+        outlineOffset: '0px',
+        margin: '0 auto'
       }}>
-        {/* Header Section with Gradient */}
+        {/* Header Section */}
         <div style={{
           padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
           textAlign: 'center',
@@ -115,15 +177,14 @@ export default function GamePlayer({ onComplete }) {
         </div>
 
         {/* Content Section */}
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+<div style={{
+  background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+  padding: 'clamp(0.5rem, 1vw, 0.75rem) clamp(0.5rem, 1vw, 0.75rem)'
+}}>
           {!gameStarted ? (
-            // Game Introduction Screen
             <>
               <div style={{
-                width: 'clamp(70px, 10vw, 90px)',
+                width: 'clamp(80px, 10vw, 90px)',
                 height: 'clamp(70px, 10vw, 90px)',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -141,9 +202,8 @@ export default function GamePlayer({ onComplete }) {
                 color: '#1e3a5f',
                 textAlign: 'center',
                 lineHeight: '1.7',
-                marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
                 fontWeight: '500',
-                maxWidth: '800px',
+                maxWidth: '90%',
                 margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
               }}>
                 Get ready to challenge your memory, logic, and problem-solving skills! 
@@ -154,17 +214,15 @@ export default function GamePlayer({ onComplete }) {
                 background: 'rgba(255, 255, 255, 0.9)',
                 borderRadius: '12px',
                 padding: 'clamp(1rem, 2vw, 1.5rem)',
-                marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
                 border: '2px solid #93c5fd',
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                maxWidth: '800px',
+                maxWidth: '90%',
                 margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
               }}>
                 <h3 style={{
                   fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
                   fontWeight: '600',
                   color: '#1a365d',
-                  marginBottom: '0.75rem',
                   margin: '0 0 0.75rem 0',
                   textAlign: 'center'
                 }}>
@@ -179,17 +237,14 @@ export default function GamePlayer({ onComplete }) {
                   textAlign: 'left'
                 }}>
                   <li>Click Start Game to begin the challenge</li>
-                  <li>The game will open in a fullscreen iframe</li>
+                  <li>The game will open in fullscreen mode</li>
                   <li>Follow the on-screen instructions in the game</li>
                   <li>Complete all levels to finish the assessment</li>
                   <li>Your progress will be automatically tracked</li>
                 </ul>
               </div>
 
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center'
-              }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <button
                   onClick={handleStartGame}
                   style={{
@@ -224,39 +279,37 @@ export default function GamePlayer({ onComplete }) {
               </div>
             </>
           ) : (
-            // Game Playing Screen
             <>
-              {/* Game Iframe */}
-              <div style={{
-                width: '100%',
-                maxWidth: '100%',
-                margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)',
-                position: 'relative',
-                paddingBottom: '56.25%',
-                height: 0,
-                overflow: 'hidden',
-                borderRadius: '12px',
-                background: '#000',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
-              }}>
-                <iframe
-                  ref={iframeRef}
-                  src={gameUrl}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    border: 'none'
-                  }}
-                  title="Assessment Game"
-                  allowFullScreen
-                  allow="gamepad; fullscreen"
-                />
-              </div>
+             {/* Game Iframe - EXACT 960x600 RATIO */}
+<div style={{
+  width: '100%',
+  maxWidth: '100%',
+  margin: '0',
+  position: 'relative',
+  paddingBottom: '62.5%',  // 👈 Matches 960x600 resolution
+  height: 0,
+  overflow: 'hidden',
+  borderRadius: '0',
+  background: '#000',
+  boxShadow: 'none'
+}}>
+  <iframe
+    ref={iframeRef}
+    src={gameUrl}
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      border: 'none'
+    }}
+    title="Assessment Game"
+    allowFullScreen
+    allow="gamepad; fullscreen"
+  />
+</div>
 
-              {/* Status Message */}
               {gameCompleted ? (
                 <div style={{
                   padding: 'clamp(1rem, 2vw, 1.25rem)',
@@ -265,7 +318,7 @@ export default function GamePlayer({ onComplete }) {
                   marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
                   border: '2px solid #52b788',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                  maxWidth: '800px',
+                  maxWidth: '90%',
                   margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
                 }}>
                   <p style={{
@@ -291,7 +344,7 @@ export default function GamePlayer({ onComplete }) {
                   marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
                   border: '2px solid #f59e0b',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                  maxWidth: '800px',
+                  maxWidth: '90%',
                   margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -337,7 +390,6 @@ export default function GamePlayer({ onComplete }) {
                 </div>
               )}
 
-              {/* Continue Button */}
               <div style={{
                 display: 'flex',
                 justifyContent: 'center'
@@ -373,7 +425,7 @@ export default function GamePlayer({ onComplete }) {
                     }
                   }}
                 >
-                  {gameCompleted ? 'Continue to Customer Scenarios' : 'Complete Game First'}
+                  Continue
                 </button>
               </div>
             </>
@@ -383,29 +435,3 @@ export default function GamePlayer({ onComplete }) {
     </div>
   );
 }
-// import React, { useState } from "react"
-
-// function MemoryGame() {
-//   const cards = ["🍎", "🍌", "🍎", "🍌"]
-//   const [flipped, setFlipped] = useState([])
-
-//   function flipCard(i) {
-//     if (flipped.length < 2) setFlipped([...flipped, i])
-//   }
-
-//   return (
-//     <div className="grid grid-cols-2 gap-4 mt-4">
-//       {cards.map((card, i) => (
-//         <div
-//           key={i}
-//           onClick={() => flipCard(i)}
-//           className="w-20 h-20 flex items-center justify-center border rounded-xl bg-indigo-50 cursor-pointer text-2xl"
-//         >
-//           {flipped.includes(i) ? card : "❓"}
-//         </div>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default MemoryGame
