@@ -65,36 +65,165 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
-      background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
-      position: 'relative'
-    }}>
+    <motion.div 
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 3vw, 3rem)',
+        background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
+        position: 'relative'
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      {/* Floating Background Elements */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ 
+            opacity: 0,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            scale: 0
+          }}
+          animate={{
+            opacity: [0, 0.1, 0],
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            scale: [0, 1.5, 0],
+            rotate: [0, 360]
+          }}
+          transition={{
+            duration: 8 + Math.random() * 4,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            width: '20px',
+            height: '20px',
+            background: `linear-gradient(45deg, rgba(74, 157, 149, 0.1) 0%, rgba(95, 185, 176, 0.1) 100%)`,
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            zIndex: 1
+          }}
+        />
+      ))}
+
       {/* Main Card */}
-      <div style={{ 
-        width: '100%', 
-        maxWidth: '1400px',
-        background: 'white',
-        borderRadius: 'clamp(24px, 3vw, 32px)',
-        overflow: 'hidden',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-        border: '3px solid white',
-        outline: '3px solid #4a9d95',
-        outlineOffset: '0px'
-      }}>
-        {/* Header Section with Gradient */}
-        <div style={{
-          padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
+      <motion.div 
+        style={{ 
+          width: '100%', 
+          maxWidth: '1400px',
+          background: 'white',
+          borderRadius: 'clamp(24px, 3vw, 32px)',
+          overflow: 'hidden',
+          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+          border: '3px solid white',
+          outline: '3px solid #4a9d95',
+          outlineOffset: '0px',
           position: 'relative',
-          overflow: 'hidden'
-        }}>
+          zIndex: 2
+        }}
+        initial={{ 
+          opacity: 0, 
+          scale: 0.8, 
+          y: 50,
+          rotateX: 15,
+          filter: 'blur(10px)'
+        }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1, 
+          y: 0,
+          rotateX: 0,
+          filter: 'blur(0px)'
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 25,
+          mass: 0.8,
+          delay: 0.2
+        }}
+        whileHover={{
+          scale: 1.02,
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.2)',
+          transition: { duration: 0.3 }
+        }}
+      >
+        {/* Animated Border Glow */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0, 0.6, 0],
+            background: [
+              'linear-gradient(0deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
+              'linear-gradient(90deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
+              'linear-gradient(180deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
+              'linear-gradient(270deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
+              'linear-gradient(0deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)'
+            ]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 'clamp(24px, 3vw, 32px)',
+            pointerEvents: 'none',
+            zIndex: 1
+          }}
+        />
+
+        {/* Header Section with Gradient */}
+        <motion.div 
+          style={{
+            padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
+            position: 'relative',
+            overflow: 'hidden',
+            zIndex: 2
+          }}
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          {/* Animated Header Background */}
+          <motion.div
+            animate={{
+              background: [
+                'radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
+                'radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
+                'radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)'
+              ]
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              pointerEvents: 'none'
+            }}
+          />
           <div style={{
             position: 'absolute',
             top: 0,
@@ -141,52 +270,143 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               />
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Content Section */}
         <motion.div 
           style={{
             background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)',
+            position: 'relative',
+            overflow: 'hidden'
           }}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ 
             opacity: showContent ? 1 : 0, 
-            y: showContent ? 0 : 20 
+            y: showContent ? 0 : 30
           }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
+          {/* Floating Particles in Content */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ 
+                opacity: 0,
+                x: Math.random() * 400,
+                y: Math.random() * 200
+              }}
+              animate={{
+                opacity: showContent ? [0, 0.3, 0] : 0,
+                x: Math.random() * 400,
+                y: Math.random() * 200,
+                scale: [0.5, 1.2, 0.5]
+              }}
+              transition={{
+                duration: 6 + Math.random() * 3,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+                ease: "easeInOut"
+              }}
+              style={{
+                position: 'absolute',
+                width: '8px',
+                height: '8px',
+                background: `hsl(${180 + Math.random() * 40}, 60%, 70%)`,
+                borderRadius: '50%',
+                pointerEvents: 'none',
+                zIndex: 1
+              }}
+            />
+          ))}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: 'clamp(1.5rem, 2.5vw, 2rem)',
             maxWidth: '1200px',
-            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)'
+            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)',
+            position: 'relative',
+            zIndex: 2
           }}>
             {/* Left Side - Photo Upload */}
-            <div style={{
-              background: 'white',
-              borderRadius: '16px',
-              padding: 'clamp(1.5rem, 3vw, 2.5rem)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 'clamp(1rem, 2vw, 1.25rem)',
-              minHeight: 'auto'
-            }}>
-              <div style={{
-                position: 'relative',
-                width: 'clamp(150px, 35vw, 200px)',
-                height: 'clamp(150px, 35vw, 200px)',
-                borderRadius: '50%',
-                background: uploadedPhoto ? 'transparent' : '#4a9d95',
+            <motion.div 
+              style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: 'clamp(1.5rem, 3vw, 2.5rem)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                border: '4px solid #e5e7eb'
-              }}>
+                gap: 'clamp(1rem, 2vw, 1.25rem)',
+                minHeight: 'auto',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              initial={{ opacity: 0, x: -50, rotateY: -15 }}
+              animate={{ 
+                opacity: showContent ? 1 : 0,
+                x: showContent ? 0 : -50,
+                rotateY: showContent ? 0 : -15
+              }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              whileHover={{
+                scale: 1.03,
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                transition: { duration: 0.2 }
+              }}
+            >
+              {/* Upload Card Background Animation */}
+              <motion.div
+                animate={{
+                  background: [
+                    'linear-gradient(45deg, rgba(74, 157, 149, 0.05) 0%, transparent 70%)',
+                    'linear-gradient(225deg, rgba(74, 157, 149, 0.05) 0%, transparent 70%)',
+                    'linear-gradient(45deg, rgba(74, 157, 149, 0.05) 0%, transparent 70%)'
+                  ]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderRadius: '16px',
+                  pointerEvents: 'none'
+                }}
+              />
+              <motion.div 
+                style={{
+                  position: 'relative',
+                  width: 'clamp(150px, 35vw, 200px)',
+                  height: 'clamp(150px, 35vw, 200px)',
+                  borderRadius: '50%',
+                  background: uploadedPhoto ? 'transparent' : '#4a9d95',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  border: '4px solid #e5e7eb',
+                  zIndex: 1
+                }}
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ 
+                  scale: showContent ? 1 : 0,
+                  rotate: showContent ? 0 : -180,
+                  borderColor: uploadedPhoto ? '#4a9d95' : '#e5e7eb'
+                }}
+                transition={{ delay: 0.9, duration: 0.6, type: "spring", stiffness: 200 }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: '0 8px 25px rgba(74, 157, 149, 0.3)',
+                  transition: { duration: 0.2 }
+                }}
+              >
                 {uploadedPhoto ? (
                   <img
                     src={uploadedPhoto}
@@ -244,37 +464,111 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                     style={{ display: 'none' }}
                   />
                 </label>
-              </div>
+              </motion.div>
 
-              <div style={{ textAlign: 'center' }}>
-                <h3 style={{
-                  fontSize: 'clamp(1.1rem, 2.2vw, 1.3rem)',
-                  fontWeight: '700',
-                  color: '#1a365d',
-                  margin: '0 0 0.5rem 0'
-                }}>
+              <motion.div 
+                style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: showContent ? 1 : 0,
+                  y: showContent ? 0 : 20
+                }}
+                transition={{ delay: 1.1, duration: 0.4 }}
+              >
+                <motion.h3 
+                  style={{
+                    fontSize: 'clamp(1.1rem, 2.2vw, 1.3rem)',
+                    fontWeight: '700',
+                    color: '#1a365d',
+                    margin: '0 0 0.5rem 0'
+                  }}
+                  animate={{
+                    color: ['#1a365d', '#4a9d95', '#1a365d']
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
                   Upload Your Photo
-                </h3>
-                <p style={{
-                  fontSize: 'clamp(0.85rem, 1.7vw, 0.95rem)',
-                  color: '#4a9d95',
-                  margin: 0
-                }}>
+                </motion.h3>
+                <motion.p 
+                  style={{
+                    fontSize: 'clamp(0.85rem, 1.7vw, 0.95rem)',
+                    color: '#4a9d95',
+                    margin: 0
+                  }}
+                  animate={{
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
                   Show us who you are
-                </p>
-              </div>
-            </div>
+                </motion.p>
+              </motion.div>
+            </motion.div>
 
             {/* Right Side - Form Inputs */}
-            <div style={{
-              background: 'white',
-              borderRadius: '16px',
-              padding: 'clamp(1.5rem, 3vw, 2.5rem)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'clamp(1rem, 2vw, 1.5rem)'
-            }}>
+            <motion.div 
+              style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: 'clamp(1.5rem, 3vw, 2.5rem)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              initial={{ opacity: 0, x: 50, rotateY: 15 }}
+              animate={{ 
+                opacity: showContent ? 1 : 0,
+                x: showContent ? 0 : 50,
+                rotateY: showContent ? 0 : 15
+              }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+              whileHover={{
+                scale: 1.03,
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                transition: { duration: 0.2 }
+              }}
+            >
+              {/* Form Background Animation */}
+              <motion.div
+                animate={{
+                  background: [
+                    'linear-gradient(135deg, rgba(95, 185, 176, 0.05) 0%, transparent 70%)',
+                    'linear-gradient(315deg, rgba(95, 185, 176, 0.05) 0%, transparent 70%)',
+                    'linear-gradient(135deg, rgba(95, 185, 176, 0.05) 0%, transparent 70%)'
+                  ]
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderRadius: '16px',
+                  pointerEvents: 'none'
+                }}
+              />
+              <div style={{
+                gap: 'clamp(1rem, 2vw, 1.5rem)',
+                position: 'relative',
+                zIndex: 1,
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
               {/* Hobbies Input */}
               <div>
                 <label style={{
@@ -552,10 +846,11 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
                   Save and Continue
                 </button>
               </div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
