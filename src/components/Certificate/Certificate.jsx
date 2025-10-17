@@ -3,11 +3,16 @@
 // STEP 13: Certificate with IndiVillage Logo
 // ============================================
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Download, Printer } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 import logoDark from '../../Asset/logoDark.png';
 
 export default function Certificate({ userName = "Employee Name", role, onComplete }) {
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+  
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -66,15 +71,21 @@ export default function Certificate({ userName = "Employee Name", role, onComple
             fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
             fontWeight: '700',
             color: '#fde68a',
-            margin: '0 0 0.3rem 0',
+            margin: '0 0 0.5rem 0',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            Congratulations on Completing Your Onboarding!
+            <TypeWriter 
+              key="certificate-header"
+              text="Congratulations on Completing Your Onboarding!"
+              speed={50}
+              delay={500}
+              onComplete={() => setShowSubtitle(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -82,15 +93,31 @@ export default function Certificate({ userName = "Employee Name", role, onComple
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Your official certificate of completion
-          </p>
+            {showSubtitle && (
+              <TypeWriter 
+                key="certificate-subtitle"
+                text="Your official certificate of completion"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
+          </div>
         </div>
 
         {/* Content Section */}
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.6 }}
+        >
           {/* Certificate Container */}
           <div id="certificate" style={{
             maxWidth: '900px',
@@ -501,7 +528,7 @@ export default function Certificate({ userName = "Employee Name", role, onComple
               and growth with our team.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

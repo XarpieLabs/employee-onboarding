@@ -5,12 +5,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Gamepad2, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 
 export default function MemoryGame({ onComplete }) {
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showManualComplete, setShowManualComplete] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const iframeRef = useRef(null);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   // CHANGE THIS URL TO YOUR GAME URL
   // const gameUrl = "http://0.0.0.0:3011/games/mini-game-memory/index.html";
@@ -157,15 +161,21 @@ export default function MemoryGame({ onComplete }) {
             fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
             fontWeight: '700',
             color: '#fde68a',
-            margin: '0 0 0.3rem 0',
+            margin: '0 0 0.5rem 0',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            Skill Assessment Games
+            <TypeWriter 
+              key="games-header"
+              text="Skill Assessment Games"
+              speed={50}
+              delay={500}
+              onComplete={() => setShowSubtitle(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -173,15 +183,31 @@ export default function MemoryGame({ onComplete }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Test your cognitive abilities with interactive challenges
-          </p>
+            {showSubtitle && (
+              <TypeWriter 
+                key="games-subtitle"
+                text="Test your cognitive abilities with interactive challenges"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
+          </div>
         </div>
 
         {/* Content Section */}
-<div style={{
-  background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-  padding: 'clamp(0.5rem, 1vw, 0.75rem) clamp(0.5rem, 1vw, 0.75rem)'
-}}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(0.5rem, 1vw, 0.75rem) clamp(0.5rem, 1vw, 0.75rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.6 }}
+        >
           {!gameStarted ? (
             <>
               <div style={{
@@ -431,7 +457,7 @@ export default function MemoryGame({ onComplete }) {
               </div>
             </>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

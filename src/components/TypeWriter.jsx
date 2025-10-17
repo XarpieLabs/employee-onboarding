@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const TypeWriter = ({ 
   text, 
-  speed = 50, 
+  speed = 80, 
   delay = 0, 
   onComplete = () => {},
   style = {},
@@ -12,45 +12,41 @@ const TypeWriter = ({
 }) => {
   const [displayText, setDisplayText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
-
+  const onCompleteRef = useRef(onComplete);
+  
+  // Update the ref when onComplete changes
   useEffect(() => {
-    console.log('TypeWriter effect running:', { text, speed, delay });
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+  
+  useEffect(() => {
+    if (!text) return;
     
-    if (!text) {
-      console.log('No text provided to TypeWriter');
-      return;
-    }
-    
+    // Reset state
     setDisplayText('');
     setIsComplete(false);
     
-    const startTimer = setTimeout(() => {
-      console.log('Starting typewriter animation for:', text);
+    const timeoutId = setTimeout(() => {
       let currentIndex = 0;
       
-      const typeInterval = setInterval(() => {
+      const intervalId = setInterval(() => {
         if (currentIndex < text.length) {
-          const newText = text.slice(0, currentIndex + 1);
-          console.log('Typing:', newText);
-          setDisplayText(newText);
+          setDisplayText(text.slice(0, currentIndex + 1));
           currentIndex++;
         } else {
-          console.log('TypeWriter completed for:', text);
-          clearInterval(typeInterval);
+          clearInterval(intervalId);
           setIsComplete(true);
-          onComplete();
+          onCompleteRef.current();
         }
       }, speed);
       
-      return () => clearInterval(typeInterval);
+      return () => clearInterval(intervalId);
     }, delay);
 
-    return () => clearTimeout(startTimer);
-  }, [text, speed, delay, onComplete]);
+    return () => clearTimeout(timeoutId);
+  }, [text, speed, delay]);
 
   const Component = motion[as] || motion.span;
-
-  console.log('TypeWriter rendering:', { displayText, isComplete, text });
 
   return (
     <Component
@@ -65,7 +61,7 @@ const TypeWriter = ({
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.8, repeat: Infinity }}
-          style={{ color: '#f59e0b', marginLeft: '2px' }}
+          style={{ color: '#fde68a', marginLeft: '2px' }}
         >
           |
         </motion.span>

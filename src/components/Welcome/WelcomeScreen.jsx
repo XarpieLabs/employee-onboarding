@@ -10,6 +10,7 @@ import logoDark from '../../Asset/logoDark.png';
 
 export default function WelcomeScreen({ onGetStarted }) {
   const { t } = useTranslation();
+  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   const features = [
@@ -116,10 +117,11 @@ return (
             lineHeight: '1.3'
           }}>
             <TypeWriter 
+              key="welcome-header"
               text="Welcome to the Indivillage Onboarding"
-              speed={100}
+              speed={50}
               delay={500}
-              onComplete={() => setShowContent(true)}
+              onComplete={() => setShowSubtitle(true)}
             />
           </h1>
           <div style={{
@@ -130,11 +132,15 @@ return (
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            <TypeWriter 
-              text="What you will achieve Experience"
-              speed={60}
-              delay={2000}
-            />
+            {showSubtitle && (
+              <TypeWriter 
+                key="welcome-subtitle"
+                text="What you will achieve Experience"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import TypeWriter from '../TypeWriter';
 
 export default function TeamHierarchy({ onComplete }) {
   const [selectedMember, setSelectedMember] = useState(null);
+  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   const teamMembers = [
@@ -132,14 +133,15 @@ export default function TeamHierarchy({ onComplete }) {
           <h2 style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
             fontWeight: 'bold',
-            color: '#1e293b',
+            color: '#fde68a',
             marginBottom: '1rem'
           }}>
             <TypeWriter 
+              key="team-header"
               text="Explore the Hierarchy Chart"
-              speed={100}
+              speed={50}
               delay={500}
-              onComplete={() => setShowContent(true)}
+              onComplete={() => setShowSubtitle(true)}
             />
           </h2>
           <div style={{
@@ -148,11 +150,15 @@ export default function TeamHierarchy({ onComplete }) {
             maxWidth: '700px',
             margin: '0 auto'
           }}>
-            <TypeWriter 
-              text="Click on each team member's profile to reveal their role, responsibilities, hobbies, and interests"
-              speed={60}
-              delay={3000}
-            />
+            {showSubtitle && (
+              <TypeWriter 
+                key="team-subtitle"
+                text="Click on each team member's profile to reveal their role, responsibilities, hobbies, and interests"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
           </div>
         </div>
 

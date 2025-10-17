@@ -30,6 +30,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
   const { t } = useTranslation();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [selectedHobbies, setSelectedHobbies] = useState([]);
+  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [hobbiesText, setHobbiesText] = useState('');
@@ -115,10 +116,11 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             lineHeight: '1.3'
           }}>
             <TypeWriter 
+              key="avatar-header"
               text="About You"
-              speed={100}
+              speed={50}
               delay={500}
-              onComplete={() => setShowContent(true)}
+              onComplete={() => setShowSubtitle(true)}
             />
           </h1>
           <div style={{
@@ -129,11 +131,15 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            <TypeWriter 
-              text="Tell us a Little about yourself"
-              speed={60}
-              delay={1800}
-            />
+            {showSubtitle && (
+              <TypeWriter 
+                key="avatar-subtitle"
+                text="Tell us a Little about yourself"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
           </div>
         </div>
 

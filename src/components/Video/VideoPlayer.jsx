@@ -5,12 +5,16 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 // import logoDark from '../../Asset/logoDark.png';
 
 export default function VideoPlayer({ onComplete }) {
   const [videoWatched, setVideoWatched] = useState(false);
   const playerRef = useRef(null);
   const [player, setPlayer] = useState(null);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   const videoId = 'fTxW0Ll2KeI';
   const videoTitle = 'Manju Kesani at the Golisano';
@@ -126,15 +130,21 @@ export default function VideoPlayer({ onComplete }) {
             fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
             fontWeight: '700',
             color: '#fde68a',
-            margin: '0 0 0.3rem 0',
+            margin: '0 0 0.5rem 0',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            Welcome Message from Leadership
+            <TypeWriter 
+              key="video-header"
+              text="Welcome Message from Leadership"
+              speed={50}
+              delay={500}
+              onComplete={() => setShowSubtitle(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -142,15 +152,31 @@ export default function VideoPlayer({ onComplete }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Watch this important message from our leadership team
-          </p>
+            {showSubtitle && (
+              <TypeWriter 
+                key="video-subtitle"
+                text="Watch this important message from our leadership team"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
+          </div>
         </div>
 
         {/* Content Section */}
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.6 }}
+        >
           {/* Video Title */}
           <h3 style={{
             fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
@@ -253,7 +279,7 @@ export default function VideoPlayer({ onComplete }) {
               {videoWatched ? 'Continue to Q&A with CEO' : 'Complete Video to Continue'}
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <style>{`

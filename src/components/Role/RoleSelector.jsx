@@ -9,6 +9,7 @@ import TypeWriter from '../TypeWriter';
 export default function RoleSelector({ onRoleSelect, selectedRole }) {
   const [tempSelected, setTempSelected] = useState(selectedRole);
   const [showDetails, setShowDetails] = useState(null);
+  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   const roles = [
@@ -133,14 +134,15 @@ export default function RoleSelector({ onRoleSelect, selectedRole }) {
           <h2 style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
             fontWeight: 'bold',
-            color: '#1e293b',
+            color: '#fde68a',
             marginBottom: '1rem'
           }}>
             <TypeWriter 
+              key="role-header"
               text="Your Role & Responsibilities"
-              speed={100}
+              speed={50}
               delay={500}
-              onComplete={() => setShowContent(true)}
+              onComplete={() => setShowSubtitle(true)}
             />
           </h2>
           <div style={{
@@ -149,11 +151,15 @@ export default function RoleSelector({ onRoleSelect, selectedRole }) {
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            <TypeWriter 
-              text="Select your role to understand your responsibilities and what's expected of you"
-              speed={60}
-              delay={2800}
-            />
+            {showSubtitle && (
+              <TypeWriter 
+                key="role-subtitle"
+                text="Select your role to understand your responsibilities and what's expected of you"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
           </div>
         </div>
 

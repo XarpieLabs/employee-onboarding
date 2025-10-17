@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { ExternalLink, MessageCircle, Video, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 
 export default function HeyGenAI({ onComplete }) {
   const [hasOpened, setHasOpened] = useState(false);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   const heygenUrl = "https://labs.heygen.com/interactive-avatar/share?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJTaWxhc0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzU4MmVlOGZlMDcyYTQ4ZmRh%0D%0AM2JjNjgyNDFhZWZmNjYwXzQ1NjYwL3ByZXZpZXdfdGFyZ2V0LndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6Ijg1MDYwODI2M2M5MjQ3NzM4NGQ3NjIx%0D%0AODU3YWQwNTYxIiwidXNlcm5hbWUiOiI2YTY5Y2EyNTRmYTU0OTIzODliNzYxNjAyYzJlMTM2MCJ9";
 
@@ -52,15 +56,21 @@ export default function HeyGenAI({ onComplete }) {
             fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)',
             fontWeight: '700',
             color: '#fde68a',
-            margin: '0 0 0.3rem 0',
+            margin: '0 0 0.5rem 0',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            Q&A with CEO
+            <TypeWriter 
+              key="heygen-header"
+              text="Q&A with CEO"
+              speed={50}
+              delay={500}
+              onComplete={() => setShowSubtitle(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -68,14 +78,30 @@ export default function HeyGenAI({ onComplete }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Interactive AI-powered conversation with our CEO
-          </p>
+            {showSubtitle && (
+              <TypeWriter 
+                key="heygen-subtitle"
+                text="Interactive AI-powered conversation with our CEO"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
+          </div>
         </div>
 
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.6 }}
+        >
           <div style={{
             width: 'clamp(70px, 10vw, 90px)',
             height: 'clamp(70px, 10vw, 90px)',
@@ -269,7 +295,7 @@ export default function HeyGenAI({ onComplete }) {
               The Q&A session will open in a new tab.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

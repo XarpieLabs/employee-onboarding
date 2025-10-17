@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { BookOpen, Shield, FileText, Lock, CheckCircle, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 import HRPoshModule from './HRPoshModule';
 
 export default function HRModuleSelector({ onComplete }) {
   const [selectedModule, setSelectedModule] = useState(null);
   const [completedModules, setCompletedModules] = useState([]);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   const modules = [
     {
@@ -76,26 +80,48 @@ export default function HRModuleSelector({ onComplete }) {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-                <div style={{ textAlign: 'center', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
           <h2 style={{
             fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
             fontWeight: 'bold',
-            color: '#1f2937',
+            color: '#fde68a',
             marginBottom: '0.5rem'
           }}>
-            HR Training
+            <TypeWriter 
+              key="hr-header"
+              text="HR Training"
+              speed={50}
+              delay={500}
+              onComplete={() => setShowSubtitle(true)}
+            />
           </h2>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.9rem, 1.8vw, 1rem)',
             color: '#6b7280',
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            Complete required training modules
-          </p>
+            {showSubtitle && (
+              <TypeWriter 
+                key="hr-subtitle"
+                text="Complete required training modules"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
+          </div>
         </div>
 
         {/* Progress Indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -359,6 +385,7 @@ export default function HRModuleSelector({ onComplete }) {
             </button>
           </div>
         )}
+        </motion.div>
       </div>
     </div>
   );

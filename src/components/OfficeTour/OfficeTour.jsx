@@ -5,6 +5,7 @@ import TypeWriter from '../TypeWriter';
 // import logoDark from '../../Asset/logoDark.png';
 
 export default function OfficeTour({ onComplete }) {
+  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
   
   // Bengaluru MG Road coordinates
@@ -86,10 +87,11 @@ export default function OfficeTour({ onComplete }) {
             position: 'relative'
           }}>
             <TypeWriter 
+              key="office-header"
               text="About Your New Office"
-              speed={100}
+              speed={50}
               delay={500}
-              onComplete={() => setShowContent(true)}
+              onComplete={() => setShowSubtitle(true)}
             />
           </h1>
           <div style={{
@@ -101,11 +103,15 @@ export default function OfficeTour({ onComplete }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            <TypeWriter 
-              text="Find your way to IndiVillage Technology"
-              speed={60}
-              delay={2500}
-            />
+            {showSubtitle && (
+              <TypeWriter 
+                key="office-subtitle"
+                text="Find your way to IndiVillage Technology"
+                speed={30}
+                delay={0}
+                onComplete={() => setShowContent(true)}
+              />
+            )}
           </div>
         </div>
 
