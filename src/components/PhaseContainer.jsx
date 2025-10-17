@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import WelcomeScreen from "./Welcome/WelcomeScreen";
 import AvatarSelection from "./Avatar/AvatarSelection";
 import CompanyInfoVideo from "./Video/CompanyInfoVideo";
@@ -45,6 +46,12 @@ export default function PhaseContainer() {
   const [showJumpToStep, setShowJumpToStep] = useState(false);
 
   const current = PHASES.find((p) => p.id === step);
+
+  // Effect to reset dropdowns when step changes
+  useEffect(() => {
+    setShowJumpToStep(false);
+    setShowLanguageDropdown(false);
+  }, [step]);
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -186,10 +193,15 @@ export default function PhaseContainer() {
               flexWrap: 'wrap' 
             }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
-                <button
+                <motion.button
                   className="header-btn"
                   onClick={() => setShowJumpToStep(!showJumpToStep)}
                   title="Jump to Step"
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)' 
+                  }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <SkipForward style={{ 
                     width: 'clamp(10px, 2vw, 14px)', 
@@ -197,106 +209,147 @@ export default function PhaseContainer() {
                     marginRight: '3px' 
                   }} />
                   <span className="hidden sm:inline">Jump</span>
-                </button>
-                {showJumpToStep && (
-                  <div style={{
-                    position: 'absolute',
-                    right: 0,
-                    marginTop: '8px',
-                    width: 'clamp(160px, 25vw, 220px)',
-                    maxHeight: '300px',
-                    overflowY: 'auto',
-                    backgroundColor: 'white',
-                    borderRadius: '8px',
-                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                    padding: '8px 0',
-                    zIndex: 50,
-                    border: '1px solid #e5e7eb'
-                  }}>
-                    <div style={{
-                      padding: '6px 8px',
-                      fontSize: 'clamp(9px, 1.5vw, 10px)',
-                      color: '#9ca3af',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
-                      Jump to Step
-                    </div>
-                    {PHASES.map((phase) => (
-                      <button
-                        key={phase.id}
-                        onClick={() => goToStep(phase.id)}
+                </motion.button>
+                <AnimatePresence>
+                  {showJumpToStep && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.3, y: -30, rotateX: -15 }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: 1, 
+                        y: 0,
+                        rotateX: 0,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 25,
+                          mass: 0.5,
+                          duration: 0.7
+                        }
+                      }}
+                      exit={{ 
+                        opacity: 0, 
+                        scale: 0.3, 
+                        y: -30,
+                        rotateX: -15,
+                        transition: { duration: 0.3 }
+                      }}
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        marginTop: '8px',
+                        width: 'clamp(160px, 25vw, 220px)',
+                        maxHeight: '300px',
+                        overflowY: 'auto',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                        backdropFilter: 'blur(12px)',
+                        borderRadius: '12px',
+                        boxShadow: '0 25px 50px rgba(102, 126, 234, 0.2), 0 15px 30px rgba(0, 0, 0, 0.15)',
+                        padding: '8px 0',
+                        zIndex: 50,
+                        border: '3px solid rgba(102, 126, 234, 0.3)',
+                        transformOrigin: 'top center'
+                      }}
+                    >
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.1 }}
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          width: '100%',
-                          textAlign: 'left',
-                          padding: 'clamp(6px, 1.2vw, 8px) clamp(8px, 2vw, 12px)',
-                          fontSize: 'clamp(10px, 1.8vw, 11px)',
-                          color: step === phase.id ? '#667eea' : '#374151',
-                          fontWeight: step === phase.id ? '600' : '400',
-                          backgroundColor: step === phase.id ? '#ede9fe' : 'transparent',
-                          border: 'none',
-                          cursor: 'pointer',
-                          transition: 'background-color 0.2s'
-                        }}
-                        onMouseEnter={(e) => {
-                          if (step !== phase.id) {
-                            e.currentTarget.style.backgroundColor = '#f3f4f6';
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (step !== phase.id) {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                          }
+                          padding: '6px 8px',
+                          fontSize: 'clamp(9px, 1.5vw, 10px)',
+                          color: '#9ca3af',
+                          fontWeight: '600',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
                         }}
                       >
-                        <span style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '20px',
-                          height: '20px',
-                          borderRadius: '50%',
-                          fontSize: '10px',
-                          fontWeight: '600',
-                          flexShrink: 0,
-                          backgroundColor: phase.id <= step ? '#667eea' : '#e5e7eb',
-                          color: phase.id <= step ? 'white' : '#9ca3af'
-                        }}>
-                          {phase.id}
-                        </span>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ 
-                            fontWeight: '600',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            {phase.label}
+                        Jump to Step
+                      </motion.div>
+                      {PHASES.map((phase, index) => (
+                        <motion.button
+                          key={phase.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ 
+                            opacity: 1, 
+                            x: 0,
+                            transition: { delay: 0.05 * index }
+                          }}
+                          whileHover={{ 
+                            x: 4,
+                            backgroundColor: step !== phase.id ? '#f3f4f6' : '#ede9fe',
+                            transition: { duration: 0.2 }
+                          }}
+                          onClick={() => goToStep(phase.id)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            width: '100%',
+                            textAlign: 'left',
+                            padding: 'clamp(6px, 1.2vw, 8px) clamp(8px, 2vw, 12px)',
+                            fontSize: 'clamp(10px, 1.8vw, 11px)',
+                            color: step === phase.id ? '#667eea' : '#374151',
+                            fontWeight: step === phase.id ? '600' : '400',
+                            backgroundColor: step === phase.id ? '#ede9fe' : 'transparent',
+                            border: 'none',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <motion.span 
+                            whileHover={{ scale: 1.1 }}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              width: '20px',
+                              height: '20px',
+                              borderRadius: '50%',
+                              fontSize: '10px',
+                              fontWeight: '600',
+                              flexShrink: 0,
+                              backgroundColor: phase.id <= step ? '#667eea' : '#e5e7eb',
+                              color: phase.id <= step ? 'white' : '#9ca3af'
+                            }}
+                          >
+                            {phase.id}
+                          </motion.span>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ 
+                              fontWeight: '600',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap'
+                            }}>
+                              {phase.label}
+                            </div>
+                            <div style={{ 
+                              fontSize: 'clamp(8px, 1.4vw, 9px)', 
+                              color: '#9ca3af',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap'
+                            }}>
+                              {phase.subtitle}
+                            </div>
                           </div>
-                          <div style={{ 
-                            fontSize: 'clamp(8px, 1.4vw, 9px)', 
-                            color: '#9ca3af',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            {phase.subtitle}
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div style={{ position: 'relative', display: 'inline-block' }}>
-                <button
+                <motion.button
                   className="header-btn"
                   onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                  title="Change Language"
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)' 
+                  }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Globe style={{ 
                     width: 'clamp(12px, 2.5vw, 16px)', 
@@ -304,47 +357,88 @@ export default function PhaseContainer() {
                     marginRight: '4px' 
                   }} />
                   <span className="hidden sm:inline">{t('nav.language')}</span>
-                </button>
-                {showLanguageDropdown && (
-                  <div style={{
-                    position: 'absolute',
-                    right: 0,
-                    marginTop: '8px',
-                    width: 'clamp(100px, 18vw, 130px)',
-                    backgroundColor: 'white',
-                    borderRadius: '8px',
-                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                    padding: '8px 0',
-                    zIndex: 50,
-                    border: '1px solid #e5e7eb'
-                  }}>
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => changeLanguage(lang.code)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          width: '100%',
-                          textAlign: 'left',
-                          padding: 'clamp(5px, 1.2vw, 6px) clamp(8px, 2vw, 12px)',
-                          fontSize: 'clamp(10px, 1.8vw, 12px)',
-                          color: i18n.language === lang.code ? '#667eea' : '#374151',
-                          fontWeight: i18n.language === lang.code ? '600' : '400',
-                          backgroundColor: 'transparent',
-                          border: 'none',
-                          cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                      >
-                        <span>{lang.flag}</span>
-                        <span>{lang.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                </motion.button>
+                <AnimatePresence>
+                  {showLanguageDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.2, y: -25, rotateY: -20 }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: 1, 
+                        y: 0,
+                        rotateY: 0,
+                        transition: {
+                          type: "spring",
+                          stiffness: 450,
+                          damping: 20,
+                          mass: 0.4,
+                          duration: 0.8
+                        }
+                      }}
+                      exit={{ 
+                        opacity: 0, 
+                        scale: 0.2, 
+                        y: -25,
+                        rotateY: -20,
+                        transition: { duration: 0.25 }
+                      }}
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        marginTop: '8px',
+                        width: 'clamp(100px, 18vw, 130px)',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+                        backdropFilter: 'blur(12px)',
+                        borderRadius: '12px',
+                        boxShadow: '0 25px 50px rgba(102, 126, 234, 0.2), 0 15px 30px rgba(0, 0, 0, 0.15)',
+                        padding: '8px 0',
+                        zIndex: 50,
+                        border: '3px solid rgba(102, 126, 234, 0.3)',
+                        transformOrigin: 'top center'
+                      }}
+                    >
+                      {languages.map((lang, index) => (
+                        <motion.button
+                          key={lang.code}
+                          initial={{ opacity: 0, x: -15 }}
+                          animate={{ 
+                            opacity: 1, 
+                            x: 0,
+                            transition: { delay: 0.1 * index }
+                          }}
+                          whileHover={{ 
+                            x: 3,
+                            backgroundColor: '#f3f4f6',
+                            transition: { duration: 0.15 }
+                          }}
+                          onClick={() => changeLanguage(lang.code)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            width: '100%',
+                            textAlign: 'left',
+                            padding: 'clamp(5px, 1.2vw, 6px) clamp(8px, 2vw, 12px)',
+                            fontSize: 'clamp(10px, 1.8vw, 12px)',
+                            color: i18n.language === lang.code ? '#667eea' : '#374151',
+                            fontWeight: i18n.language === lang.code ? '600' : '400',
+                            backgroundColor: i18n.language === lang.code ? '#ede9fe' : 'transparent',
+                            border: 'none',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <motion.span 
+                            whileHover={{ scale: 1.2 }}
+                            style={{ fontSize: '1.1em' }}
+                          >
+                            {lang.flag}
+                          </motion.span>
+                          <span>{lang.name}</span>
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <button className="header-btn">
