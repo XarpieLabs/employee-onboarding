@@ -5,6 +5,8 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Upload, Plus, User } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 
 const HOBBIES_EMOJIS = [
   { emoji: '📚', label: 'Reading' },
@@ -28,6 +30,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
   const { t } = useTranslation();
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [selectedHobbies, setSelectedHobbies] = useState([]);
+  const [showContent, setShowContent] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [hobbiesText, setHobbiesText] = useState('');
   const [favoriteMovie, setFavoriteMovie] = useState('');
@@ -111,9 +114,14 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            About You
+            <TypeWriter 
+              text="About You"
+              speed={100}
+              delay={500}
+              onComplete={() => setShowContent(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -121,15 +129,27 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Tell us a Little about yourself
-          </p>
+            <TypeWriter 
+              text="Tell us a Little about yourself"
+              speed={60}
+              delay={1800}
+            />
+          </div>
         </div>
 
         {/* Content Section */}
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
@@ -528,7 +548,7 @@ export default function AvatarSelection({ onDone, onAvatarSelect }) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

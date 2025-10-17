@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Heart, Calendar, Briefcase } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 
 export default function TeamHierarchy({ onComplete }) {
   const [selectedMember, setSelectedMember] = useState(null);
+  const [showContent, setShowContent] = useState(false);
 
   const teamMembers = [
     {
@@ -132,24 +135,41 @@ export default function TeamHierarchy({ onComplete }) {
             color: '#1e293b',
             marginBottom: '1rem'
           }}>
-            Explore the Hierarchy Chart
+            <TypeWriter 
+              text="Explore the Hierarchy Chart"
+              speed={100}
+              delay={500}
+              onComplete={() => setShowContent(true)}
+            />
           </h2>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(1rem, 2vw, 1.125rem)',
             color: '#64748b',
             maxWidth: '700px',
             margin: '0 auto'
           }}>
-            Click on each team member's profile to reveal their role, responsibilities, hobbies, and interests
-          </p>
+            <TypeWriter 
+              text="Click on each team member's profile to reveal their role, responsibilities, hobbies, and interests"
+              speed={60}
+              delay={3000}
+            />
+          </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: selectedMember ? '60% 40%' : '1fr',
-          gap: '2rem',
-          alignItems: 'start'
-        }}>
+        <motion.div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: selectedMember ? '60% 40%' : '1fr',
+            gap: '2rem',
+            alignItems: 'start'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <div style={{
             background: 'white',
             borderRadius: '16px',
@@ -493,7 +513,7 @@ export default function TeamHierarchy({ onComplete }) {
               </div>
             </div>
           )}
-        </div>
+        </motion.div>
 
         <div style={{
           marginTop: '2rem',

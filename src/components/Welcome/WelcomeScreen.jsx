@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next'; 
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 import welcome1 from '../../Asset/welcome1.png';
 import welcome2 from '../../Asset/welcome2.png';
 import welcome3 from '../../Asset/welcome3.png';
@@ -8,6 +10,7 @@ import logoDark from '../../Asset/logoDark.png';
 
 export default function WelcomeScreen({ onGetStarted }) {
   const { t } = useTranslation();
+  const [showContent, setShowContent] = useState(false);
 
   const features = [
     {
@@ -112,9 +115,14 @@ return (
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            Welcome to the Indivillage Onboarding
+            <TypeWriter 
+              text="Welcome to the Indivillage Onboarding"
+              speed={100}
+              delay={500}
+              onComplete={() => setShowContent(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
             color: 'white',
             margin: 0,
@@ -122,15 +130,27 @@ return (
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            What you will achieve Experience
-          </p>
+            <TypeWriter 
+              text="What you will achieve Experience"
+              speed={60}
+              delay={2000}
+            />
+          </div>
         </div>
 
         {/* Features Section */}
-        <div style={{
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)',
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)'
-        }}>
+        <motion.div 
+          style={{
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)',
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
@@ -239,7 +259,7 @@ return (
               Get Started
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <style>{`

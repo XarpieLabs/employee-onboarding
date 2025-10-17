@@ -3,10 +3,13 @@
 
 import React, { useState } from 'react';
 import { Briefcase, Users, Code, TrendingUp, Shield, Palette } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 
 export default function RoleSelector({ onRoleSelect, selectedRole }) {
   const [tempSelected, setTempSelected] = useState(selectedRole);
   const [showDetails, setShowDetails] = useState(null);
+  const [showContent, setShowContent] = useState(false);
 
   const roles = [
     {
@@ -133,24 +136,41 @@ export default function RoleSelector({ onRoleSelect, selectedRole }) {
             color: '#1e293b',
             marginBottom: '1rem'
           }}>
-            Your Role & Responsibilities
+            <TypeWriter 
+              text="Your Role & Responsibilities"
+              speed={100}
+              delay={500}
+              onComplete={() => setShowContent(true)}
+            />
           </h2>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(1rem, 2vw, 1.125rem)',
             color: '#64748b',
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            Select your role to understand your responsibilities and what's expected of you
-          </p>
+            <TypeWriter 
+              text="Select your role to understand your responsibilities and what's expected of you"
+              speed={60}
+              delay={2800}
+            />
+          </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 'clamp(1rem, 2vw, 1.5rem)',
-          marginBottom: '2rem'
-        }}>
+        <motion.div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(1rem, 2vw, 1.5rem)',
+            marginBottom: '2rem'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           {roles.map((role) => {
             const Icon = role.icon;
             const isSelected = tempSelected?.id === role.id;
@@ -247,7 +267,7 @@ export default function RoleSelector({ onRoleSelect, selectedRole }) {
               </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {showDetails && tempSelected && (
           <div style={{

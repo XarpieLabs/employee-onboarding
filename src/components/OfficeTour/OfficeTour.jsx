@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Building2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import TypeWriter from '../TypeWriter';
 // import logoDark from '../../Asset/logoDark.png';
 
 export default function OfficeTour({ onComplete }) {
+  const [showContent, setShowContent] = useState(false);
+  
   // Bengaluru MG Road coordinates
   const latitude = 12.9716;
   const longitude = 77.5946;
@@ -81,9 +85,14 @@ export default function OfficeTour({ onComplete }) {
             margin: '0 0 0.3rem 0',
             position: 'relative'
           }}>
-            About Your New Office
+            <TypeWriter 
+              text="About Your New Office"
+              speed={100}
+              delay={500}
+              onComplete={() => setShowContent(true)}
+            />
           </h1>
-          <p style={{
+          <div style={{
             fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
             color: 'white',
             textAlign: 'center',
@@ -92,15 +101,27 @@ export default function OfficeTour({ onComplete }) {
             position: 'relative',
             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'
           }}>
-            Find your way to IndiVillage Technology
-          </p>
+            <TypeWriter 
+              text="Find your way to IndiVillage Technology"
+              speed={60}
+              delay={2500}
+            />
+          </div>
         </div>
 
         {/* Main Content Section */}
-        <div style={{
-          background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
-          padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
-        }}>
+        <motion.div 
+          style={{
+            background: 'linear-gradient(180deg, #9edbe8 0%, #eef6eb 100%)',
+            padding: 'clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showContent ? 1 : 0, 
+            y: showContent ? 0 : 20 
+          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <h2 style={{
             fontSize: 'clamp(1rem, 2.2vw, 1.2rem)',
             fontWeight: '600',
@@ -395,7 +416,7 @@ export default function OfficeTour({ onComplete }) {
               Continue to Next Step
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <style>{`
