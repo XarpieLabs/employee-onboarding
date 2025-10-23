@@ -1,5 +1,6 @@
 // FILE: src/components/Video/CompanyInfoVideo.jsx
 // STEP 3: Company Info Videos - 3 Videos in One Line
+// FIXED: Smooth animations, no lag
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, CheckCircle } from 'lucide-react';
@@ -14,6 +15,12 @@ export default function CompanyInfoVideo({ onComplete }) {
   });
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  
+  // Sequential Animation States
+  const [animationPhase, setAnimationPhase] = useState('header');
+  const [headerAnimationComplete, setHeaderAnimationComplete] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
 
   const playerRefs = useRef({});
   const [players, setPlayers] = useState({});
@@ -86,54 +93,62 @@ export default function CompanyInfoVideo({ onComplete }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      {/* Floating Background Elements */}
-      {[...Array(3)].map((_, i) => (
+      {/* Floating Background Elements - Paused during typing */}
+      {[...Array(2)].map((_, i) => {
+        const safeWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const safeHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+        const initialX = Math.random() * safeWidth;
+        const initialY = Math.random() * safeHeight;
+        const animateX = Math.random() * safeWidth;
+        const animateY = Math.random() * safeHeight;
+        
+        return (
         <motion.div
           key={i}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: initialX,
+            y: initialY,
             scale: 0
           }}
-          animate={{
-            opacity: [0, 0.08, 0],
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            scale: [0, 1.2, 0],
-            rotate: [0, 90]
+          animate={isTyping ? { opacity: 0 } : {
+            opacity: [0, 0.05, 0],
+            x: animateX,
+            y: animateY,
+            scale: [0, 1, 0]
           }}
           transition={{
-            duration: 20 + Math.random() * 10,
+            duration: 15 + Math.random() * 5,
             repeat: Infinity,
-            delay: Math.random() * 8,
+            delay: Math.random() * 4,
             ease: "easeInOut"
           }}
           style={{
             position: 'absolute',
-            width: '25px',
-            height: '25px',
-            background: `linear-gradient(45deg, rgba(74, 157, 149, 0.08) 0%, rgba(95, 185, 176, 0.12) 100%)`,
+            width: '20px',
+            height: '20px',
+            background: `linear-gradient(45deg, rgba(74, 157, 149, 0.06) 0%, rgba(95, 185, 176, 0.08) 100%)`,
             borderRadius: '50%',
             pointerEvents: 'none',
             zIndex: 1
           }}
         />
-      ))}
+        );
+      })}
 
-      {/* Video Play Icons Floating */}
+      {/* Video Play Icons Floating - Paused during typing */}
       {[...Array(2)].map((_, i) => (
         <motion.div
           key={`play-${i}`}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
+            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800)
           }}
-          animate={{
+          animate={isTyping ? { opacity: 0 } : {
             opacity: [0, 0.06, 0],
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
             rotate: [0, 180],
             scale: [0.5, 1, 0.5]
           }}
@@ -154,19 +169,18 @@ export default function CompanyInfoVideo({ onComplete }) {
         </motion.div>
       ))}
 
-      {/* Extra Visual Effects */}
-      {/* Floating Hearts and Stars */}
+      {/* Floating Hearts and Stars - Paused during typing */}
       {[...Array(2)].map((_, i) => (
         <motion.div
           key={`heart-${i}`}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: window.innerHeight + 50
+            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+            y: (typeof window !== 'undefined' ? window.innerHeight : 800) + 50
           }}
-          animate={{
+          animate={isTyping ? { opacity: 0 } : {
             opacity: [0, 0.15, 0],
-            x: Math.random() * window.innerWidth,
+            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
             y: -50,
             rotate: [0, 90],
             scale: [0.5, 0.8, 0.5]
@@ -189,13 +203,11 @@ export default function CompanyInfoVideo({ onComplete }) {
         </motion.div>
       ))}
 
-      {/* Orbiting Elements around main card */}
+      {/* Orbiting Elements - Paused during typing */}
       {[...Array(2)].map((_, i) => (
         <motion.div
           key={`orbit-${i}`}
-          animate={{
-            rotate: 360
-          }}
+          animate={isTyping ? { rotate: 0 } : { rotate: 360 }}
           transition={{
             duration: 35 + i * 15,
             repeat: Infinity,
@@ -214,7 +226,7 @@ export default function CompanyInfoVideo({ onComplete }) {
           }}
         >
           <motion.div
-            animate={{
+            animate={isTyping ? { opacity: 0 } : {
               scale: [1, 1.05, 1],
               opacity: [0.06, 0.1, 0.06]
             }}
@@ -238,6 +250,7 @@ export default function CompanyInfoVideo({ onComplete }) {
         </motion.div>
       ))}
 
+      {/* Main Card */}
       <motion.div 
         style={{
           width: '100%',
@@ -247,23 +260,16 @@ export default function CompanyInfoVideo({ onComplete }) {
           overflow: 'hidden',
           boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
           border: '3px solid white',
-          outlineOffset: '0px',
           position: 'relative',
           zIndex: 2
         }}
         initial={{ 
           opacity: 0, 
-          scale: 0.7, 
-          y: 80,
-          rotateX: 20,
-          filter: 'blur(15px)'
+          y: 40
         }}
         animate={{ 
           opacity: 1, 
-          scale: 1, 
-          y: 0,
-          rotateX: 0,
-          filter: 'blur(0px)'
+          y: 0
         }}
         transition={{
           type: "spring",
@@ -272,16 +278,11 @@ export default function CompanyInfoVideo({ onComplete }) {
           mass: 1,
           delay: 0.3
         }}
-        whileHover={{
-          scale: 1.01,
-          boxShadow: '0 25px 70px rgba(0, 0, 0, 0.25)',
-          transition: { duration: 0.3 }
-        }}
       >
-        {/* Animated Border Glow */}
+        {/* Animated Border Glow - Only after typing complete */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ 
+          animate={isTyping ? { opacity: 0 } : { 
             opacity: [0, 0.5, 0],
             background: [
               'linear-gradient(0deg, rgba(74, 157, 149, 0.3) 0%, transparent 60%)',
@@ -335,32 +336,42 @@ export default function CompanyInfoVideo({ onComplete }) {
           />
         ))}
 
+        {/* Sequential Header Section */}
         <motion.div 
           style={{
-            background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
+            background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 50%, #4a9d95 100%)',
             padding: 'clamp(0.85rem, 1.8vw, 1.25rem) clamp(0.75rem, 1vw, 1rem)',
             borderBottom: '2px solid #3a8d85',
             position: 'relative',
             overflow: 'hidden',
             zIndex: 2
           }}
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          initial={{ opacity: 0, y: -20, scaleX: 0 }}
+          animate={{ 
+            opacity: 1, 
+            y: 0,
+            scaleX: 1
+          }}
+          transition={{ 
+            delay: 0.2, 
+            duration: 0.8, 
+            ease: "easeOut",
+            scaleX: { duration: 1.2, ease: "easeInOut" }
+          }}
+          onAnimationComplete={() => {
+            setHeaderAnimationComplete(true);
+            setAnimationPhase('typing');
+          }}
         >
-          {/* Animated Header Background */}
+          {/* Background Glow - Only during typing */}
           <motion.div
-            animate={{
-              background: [
-                'radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)',
-                'radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)',
-                'radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)'
-              ]
-            }}
+            animate={animationPhase === 'typing' ? {
+              opacity: [0.1, 0.2, 0.1]
+            } : { opacity: 0 }}
             transition={{
-              duration: 10,
+              duration: 4,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "linear"
             }}
             style={{
               position: 'absolute',
@@ -368,9 +379,11 @@ export default function CompanyInfoVideo({ onComplete }) {
               left: 0,
               right: 0,
               bottom: 0,
+              background: 'rgba(255, 255, 255, 0.1)',
               pointerEvents: 'none'
             }}
           />
+          
           <h2 style={{ 
             fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)', 
             fontWeight: '700', 
@@ -382,45 +395,17 @@ export default function CompanyInfoVideo({ onComplete }) {
             lineHeight: '1.3',
             position: 'relative'
           }}>
-            {/* Glowing text effect behind TypeWriter - only after completion */}
-            {showSubtitle && (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: [0, 0.7, 0.4, 0.7],
-                  textShadow: [
-                    '0 0 5px rgba(253, 230, 138, 0.3)',
-                    '0 0 15px rgba(253, 230, 138, 0.6)',
-                    '0 0 5px rgba(253, 230, 138, 0.3)'
-                  ]
+            {headerAnimationComplete && (
+              <TypeWriter 
+                key="company-header"
+                text="What It's Like to Join IndiVillage"
+                speed={80}
+                delay={200}
+                onComplete={() => {
+                  setShowSubtitle(true);
                 }}
-                transition={{
-                  opacity: { duration: 0.5 },
-                  textShadow: {
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }
-                }}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  opacity: 0.7,
-                  pointerEvents: 'none'
-                }}
-              >
-                What It's Like to Join IndiVillage
-              </motion.span>
+              />
             )}
-            <TypeWriter 
-              key="company-header"
-              text="What It's Like to Join IndiVillage"
-              speed={80}
-              delay={500}
-              onComplete={() => setShowSubtitle(true)}
-            />
           </h2>
           <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
@@ -434,7 +419,12 @@ export default function CompanyInfoVideo({ onComplete }) {
                 text="Learn about our mission and values through these videos"
                 speed={50}
                 delay={0}
-                onComplete={() => setShowContent(true)}
+                onComplete={() => {
+                  setShowContent(true);
+                  setTypingComplete(true);
+                  setAnimationPhase('content');
+                  setIsTyping(false);
+                }}
               />
             )}
           </div>
@@ -449,10 +439,10 @@ export default function CompanyInfoVideo({ onComplete }) {
           }}
           initial={{ opacity: 0, y: 40 }}
           animate={{ 
-            opacity: showContent ? 1 : 0, 
-            y: showContent ? 0 : 40
+            opacity: (showContent && typingComplete) ? 1 : 0, 
+            y: (showContent && typingComplete) ? 0 : 40
           }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Content Area Particles */}
           {[...Array(3)].map((_, i) => (
@@ -464,7 +454,7 @@ export default function CompanyInfoVideo({ onComplete }) {
                 y: Math.random() * 300
               }}
               animate={{
-                opacity: showContent ? [0, 0.1, 0] : 0,
+                opacity: (showContent && typingComplete) ? [0, 0.1, 0] : 0,
                 x: Math.random() * 600,
                 y: Math.random() * 300,
                 scale: [0.5, 1, 0.5],
@@ -531,6 +521,7 @@ export default function CompanyInfoVideo({ onComplete }) {
               />
             ))}
           </motion.div>
+          
           <p style={{ 
             fontSize: 'clamp(0.9rem, 1.8vw, 1.1rem)', 
             color: '#1e3a5f',
@@ -562,13 +553,11 @@ export default function CompanyInfoVideo({ onComplete }) {
                 }}
                 initial={{ 
                   opacity: 0, 
-                  scale: 0.8, 
                   y: 50,
                   rotateY: -15 
                 }}
                 animate={{ 
                   opacity: showContent ? 1 : 0,
-                  scale: showContent ? 1 : 0.8,
                   y: showContent ? 0 : 50,
                   rotateY: showContent ? 0 : -15,
                   borderColor: videosWatched[video.id] ? '#52b788' : '#e5e7eb'
@@ -581,9 +570,7 @@ export default function CompanyInfoVideo({ onComplete }) {
                   damping: 20
                 }}
                 whileHover={{
-                  scale: 1.05,
-                  y: -10,
-                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)',
+                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.15)',
                   transition: { duration: 0.2 }
                 }}
                 whileTap={{ scale: 0.98 }}
@@ -722,19 +709,13 @@ export default function CompanyInfoVideo({ onComplete }) {
                   </motion.div>
                 )}
 
-                <motion.div 
-                  style={{ 
-                    position: 'relative', 
-                    paddingBottom: '56.25%', 
-                    height: 0, 
-                    background: '#000',
-                    overflow: 'hidden'
-                  }}
-                  whileHover={{
-                    scale: 1.02,
-                    transition: { duration: 0.2 }
-                  }}
-                >
+                <div style={{ 
+                  position: 'relative', 
+                  paddingBottom: '56.25%', 
+                  height: 0, 
+                  background: '#000',
+                  overflow: 'hidden'
+                }}>
                   <iframe
                     ref={el => playerRefs.current[video.id] = el}
                     id={video.id}
@@ -751,7 +732,7 @@ export default function CompanyInfoVideo({ onComplete }) {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
-                </motion.div>
+                </div>
                 
                 <motion.div 
                   style={{
@@ -842,18 +823,12 @@ export default function CompanyInfoVideo({ onComplete }) {
               position: 'relative',
               overflow: 'hidden'
             }}
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ 
               opacity: showContent ? 1 : 0,
-              scale: showContent ? 1 : 0.9,
               y: showContent ? 0 : 30
             }}
             transition={{ delay: 1.2, duration: 0.5 }}
-            whileHover={{
-              scale: 1.02,
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-              transition: { duration: 0.2 }
-            }}
           >
             {/* Progress Indicator Background */}
             <motion.div

@@ -73,7 +73,7 @@ export default function LobbyView({
         // Also calculate pointer and badge positions
         pointers: {
           hr: {
-            left: `${offsetX + (795 * scale)}px`,
+            left: `${offsetX + (79 * scale)}px`,
             top: `${offsetY + (400* scale)}px`
           },
           finance: {

@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TypeWriter from '../TypeWriter';
-// import logoDark from '../../Asset/logoDark.png';
 
 export default function OfficeTour({ onComplete }) {
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState('header');
+  const [headerAnimationComplete, setHeaderAnimationComplete] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [isTyping, setIsTyping] = useState(true); // NEW: Controls background animations
   
-  // Bengaluru MG Road coordinates
   const latitude = 12.9716;
   const longitude = 77.5946;
-  
-  // Google Maps URL
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
   const handleMapClick = () => {
@@ -35,20 +35,28 @@ export default function OfficeTour({ onComplete }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      {/* Floating Background Elements - Gaming Style */}
-      {[...Array(6)].map((_, i) => (
+      {/* Floating Background Elements - Paused during typing */}
+      {[...Array(6)].map((_, i) => {
+        const safeWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const safeHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+        const initialX = Math.random() * safeWidth;
+        const initialY = Math.random() * safeHeight;
+        const animateX = Math.random() * safeWidth;
+        const animateY = Math.random() * safeHeight;
+        
+        return (
         <motion.div
           key={i}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: initialX,
+            y: initialY,
             scale: 0
           }}
-          animate={{
+          animate={isTyping ? { opacity: 0 } : {
             opacity: [0, 0.08, 0],
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: animateX,
+            y: animateY,
             scale: [0, 1.2, 0],
             rotate: [0, 180]
           }}
@@ -68,26 +76,35 @@ export default function OfficeTour({ onComplete }) {
             zIndex: 1
           }}
         />
-      ))}
+        );
+      })}
 
-      {/* Gaming Elements - Code/Tech Icons */}
-      {[...Array(4)].map((_, i) => (
+      {/* Gaming Elements - Paused during typing */}
+      {[...Array(4)].map((_, i) => {
+        const safeWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const safeHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+        const initialX = Math.random() * safeWidth;
+        const initialY = Math.random() * safeHeight;
+        const animateX = Math.random() * safeWidth;
+        const animateY = Math.random() * safeHeight;
+        
+        return (
         <motion.div
           key={`tech-${i}`}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
+            x: initialX,
+            y: initialY
           }}
           animate={{
-            opacity: [0, 0.06, 0],
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            rotate: [0, 360],
-            scale: [0.5, 1, 0.5]
+            opacity: isTyping ? [0, 0.02, 0] : [0, 0.06, 0],
+            x: animateX,
+            y: animateY,
+            rotate: isTyping ? 0 : [0, 360],
+            scale: isTyping ? [0.7, 0.9, 0.7] : [0.5, 1, 0.5]
           }}
           transition={{
-            duration: 20 + Math.random() * 10,
+            duration: isTyping ? 35 : 20 + Math.random() * 10,
             repeat: Infinity,
             delay: Math.random() * 6,
             ease: "easeInOut"
@@ -100,9 +117,10 @@ export default function OfficeTour({ onComplete }) {
             fontSize: '18px'
           }}
         >
-          {i % 4 === 0 ? '💻' : i % 4 === 1 ? '�' : i % 4 === 2 ? '⚡' : '�'}
+          {i % 4 === 0 ? '💻' : i % 4 === 1 ? '🚀' : i % 4 === 2 ? '⚡' : '🎯'}
         </motion.div>
-      ))}
+        );
+      })}
 
       {/* Main Card */}
       <motion.div 
@@ -119,46 +137,65 @@ export default function OfficeTour({ onComplete }) {
         }}
         initial={{ 
           opacity: 0, 
-          scale: 0.7, 
-          y: 80,
-          rotateX: 20,
-          filter: 'blur(15px)'
+          y: 40
         }}
         animate={{ 
           opacity: 1, 
-          scale: 1, 
-          y: 0,
-          rotateX: 0,
-          filter: 'blur(0px)'
+          y: 0
         }}
         transition={{
           type: "spring",
-          stiffness: 200,
-          damping: 25,
+          stiffness: 150,
+          damping: 20,
           mass: 1,
           delay: 0.3
         }}
-        whileHover={{
-          scale: 1.01,
-          boxShadow: '0 25px 70px rgba(0, 0, 0, 0.25)',
-          transition: { duration: 0.3 }
-        }}
       >
-        {/* Gaming-Style Border Glow */}
+        {/* Floating Code Symbols - Paused during typing */}
+        {['<>', '{}', '[]', '&&'].map((symbol, i) => {
+          const xOffset = Math.sin(i) * 8;
+          return (
+          <motion.div
+            key={`code-symbol-${i}`}
+            animate={{
+              y: isTyping ? 0 : [0, -15, 0],
+              x: isTyping ? 0 : [0, xOffset, 0],
+              opacity: isTyping ? [0.01, 0.02, 0.01] : [0.03, 0.06, 0.03]
+            }}
+            transition={{
+              duration: isTyping ? 12 : 6 + Math.random() * 2,
+              repeat: Infinity,
+              delay: i * 1,
+              ease: "easeInOut"
+            }}
+            style={{
+              position: 'absolute',
+              top: `${10 + (i % 4) * 25}%`,
+              left: `${5 + (i % 3) * 45}%`,
+              color: 'rgba(74, 157, 149, 0.15)',
+              fontSize: '14px',
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              pointerEvents: 'none',
+              zIndex: 1,
+              textShadow: '0 0 5px rgba(74, 157, 149, 0.2)'
+            }}
+          >
+            {symbol}
+          </motion.div>
+          );
+        })}
+
+        {/* Background Pattern - Slowed during typing */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: [0, 0.4, 0],
-            background: [
-              'linear-gradient(0deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
-              'linear-gradient(180deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)',
-              'linear-gradient(0deg, rgba(74, 157, 149, 0.3) 0%, transparent 50%)'
-            ]
+          animate={{
+            backgroundPosition: isTyping ? ['0px 0px', '20px 20px'] : ['0px 0px', '40px 40px'],
+            opacity: isTyping ? [0.01, 0.02, 0.01] : [0.02, 0.05, 0.02]
           }}
           transition={{
-            duration: 8,
+            duration: isTyping ? 40 : 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "linear"
           }}
           style={{
             position: 'absolute',
@@ -168,7 +205,67 @@ export default function OfficeTour({ onComplete }) {
             bottom: 0,
             borderRadius: 'clamp(24px, 3vw, 32px)',
             pointerEvents: 'none',
-            zIndex: 1
+            zIndex: 1,
+            background: `
+              radial-gradient(circle at 20% 30%, rgba(74, 157, 149, 0.05) 1px, transparent 1px),
+              radial-gradient(circle at 80% 70%, rgba(74, 157, 149, 0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '25px 25px'
+          }}
+        />
+
+        {/* Circuit Board Pattern - Slowed during typing */}
+        <motion.div
+          animate={{
+            backgroundPosition: isTyping ? ['0px 0px', '15px 15px'] : ['0px 0px', '30px 30px'],
+            opacity: isTyping ? [0.01, 0.03, 0.01] : [0.03, 0.08, 0.03]
+          }}
+          transition={{
+            duration: isTyping ? 35 : 18,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 'clamp(24px, 3vw, 32px)',
+            pointerEvents: 'none',
+            zIndex: 1,
+            background: `
+              radial-gradient(circle at 25% 25%, rgba(74, 157, 149, 0.1) 1px, transparent 1px),
+              radial-gradient(circle at 75% 75%, rgba(74, 157, 149, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '20px 20px'
+          }}
+        />
+
+        {/* Energy Pulse Border */}
+        <motion.div
+          animate={{
+            opacity: [0, 0.6, 0],
+            scale: [1, 1.01, 1]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            top: '-2px',
+            left: '-2px',
+            right: '-2px',
+            bottom: '-2px',
+            borderRadius: 'clamp(26px, 3vw, 34px)',
+            border: '2px solid rgba(74, 157, 149, 0.4)',
+            pointerEvents: 'none',
+            zIndex: 1,
+            background: 'linear-gradient(45deg, transparent, rgba(74, 157, 149, 0.08), transparent)',
+            backgroundSize: '30px 30px',
+            filter: 'blur(0.5px)'
           }}
         />
 
@@ -183,31 +280,63 @@ export default function OfficeTour({ onComplete }) {
             key={`corner-${i}`}
             initial={{ scale: 0, opacity: 0 }}
             animate={{
-              scale: [0, 1, 0],
-              opacity: [0, 0.6, 0],
-              rotate: [0, 90, 180]
+              scale: [0.8, 1.2, 0.8],
+              opacity: [0.4, 0.8, 0.4],
+              rotate: [0, 360]
             }}
             transition={{
-              duration: 4,
+              duration: 6,
               repeat: Infinity,
-              delay: i * 0.5,
+              delay: i * 0.8,
               ease: "easeInOut"
             }}
             style={{
               position: 'absolute',
               ...pos,
-              width: '8px',
-              height: '8px',
+              width: '12px',
+              height: '12px',
               background: 'linear-gradient(45deg, #4a9d95, #5fb9b0)',
-              borderRadius: '50%',
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
               pointerEvents: 'none',
               zIndex: 2,
-              boxShadow: '0 0 10px rgba(74, 157, 149, 0.5)'
+              boxShadow: '0 0 15px rgba(74, 157, 149, 0.7)'
             }}
           />
         ))}
 
-        {/* Header Section */}
+        {/* Gaming HUD Elements */}
+        {[
+          { top: '15px', left: '50%', width: '40px', height: '2px' },
+          { bottom: '15px', left: '50%', width: '40px', height: '2px' },
+          { top: '50%', left: '15px', width: '2px', height: '40px' },
+          { top: '50%', right: '15px', width: '2px', height: '40px' }
+        ].map((style, i) => (
+          <motion.div
+            key={`hud-${i}`}
+            animate={{
+              opacity: [0.3, 0.8, 0.3],
+              scale: [0.8, 1, 0.8]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: i * 0.4,
+              ease: "easeInOut"
+            }}
+            style={{
+              position: 'absolute',
+              ...style,
+              transform: style.left === '50%' ? 'translateX(-50%)' : style.top === '50%' ? 'translateY(-50%)' : 'none',
+              background: 'linear-gradient(90deg, #4a9d95, #5fb9b0)',
+              borderRadius: '2px',
+              pointerEvents: 'none',
+              zIndex: 2,
+              boxShadow: '0 0 8px rgba(74, 157, 149, 0.6)'
+            }}
+          />
+        ))}
+
+        {/* Sequential Header Section */}
         <motion.div 
           style={{
             background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
@@ -217,23 +346,32 @@ export default function OfficeTour({ onComplete }) {
             overflow: 'hidden',
             zIndex: 2
           }}
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          initial={{ opacity: 0, y: -20, scaleX: 0 }}
+          animate={{ 
+            opacity: 1, 
+            y: 0,
+            scaleX: 1
+          }}
+          transition={{ 
+            delay: 0.2, 
+            duration: 0.8, 
+            ease: "easeOut",
+            scaleX: { duration: 1.2, ease: "easeInOut" }
+          }}
+          onAnimationComplete={() => {
+            setHeaderAnimationComplete(true);
+            setAnimationPhase('typing');
+          }}
         >
-          {/* Animated Header Background */}
+          {/* Background Glow - Only during typing */}
           <motion.div
-            animate={{
-              background: [
-                'radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)',
-                'radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)',
-                'radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)'
-              ]
-            }}
+            animate={animationPhase === 'typing' ? {
+              opacity: [0.1, 0.2, 0.1]
+            } : { opacity: 0 }}
             transition={{
-              duration: 8,
+              duration: 4,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "linear"
             }}
             style={{
               position: 'absolute',
@@ -241,6 +379,7 @@ export default function OfficeTour({ onComplete }) {
               left: 0,
               right: 0,
               bottom: 0,
+              background: 'rgba(255, 255, 255, 0.1)',
               pointerEvents: 'none'
             }}
           />
@@ -257,13 +396,17 @@ export default function OfficeTour({ onComplete }) {
             margin: '0 0 0.3rem 0',
             position: 'relative'
           }}>
-            <TypeWriter 
-              key="office-header"
-              text="About Your New Office"
-              speed={50}
-              delay={500}
-              onComplete={() => setShowSubtitle(true)}
-            />
+            {headerAnimationComplete && (
+              <TypeWriter 
+                key="office-header"
+                text="About Your New Office"
+                speed={50}
+                delay={200}
+                onComplete={() => {
+                  setShowSubtitle(true);
+                }}
+              />
+            )}
           </h1>
           <div style={{
             fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
@@ -280,7 +423,12 @@ export default function OfficeTour({ onComplete }) {
                 text="Find your way to IndiVillage Technology"
                 speed={30}
                 delay={0}
-                onComplete={() => setShowContent(true)}
+                onComplete={() => {
+                  setShowContent(true);
+                  setTypingComplete(true);
+                  setAnimationPhase('content');
+                  setIsTyping(false); // IMPORTANT: Stop typing phase
+                }}
               />
             )}
           </div>
@@ -296,42 +444,111 @@ export default function OfficeTour({ onComplete }) {
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ 
-            opacity: showContent ? 1 : 0, 
-            y: showContent ? 0 : 20 
+            opacity: (showContent && typingComplete) ? 1 : 0, 
+            y: (showContent && typingComplete) ? 0 : 20 
           }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Gaming UI Elements */}
-          {[...Array(4)].map((_, i) => (
+          {[...Array(4)].map((_, i) => {
+            const randomX = Math.random() * 600;
+            const randomY = Math.random() * 300;
+            return (
             <motion.div
               key={i}
               initial={{ 
                 opacity: 0,
-                x: Math.random() * 600,
-                y: Math.random() * 300
+                x: randomX,
+                y: randomY
               }}
               animate={{
-                opacity: showContent ? [0, 0.08, 0] : 0,
-                x: Math.random() * 600,
-                y: Math.random() * 300,
-                scale: [0.5, 1, 0.5],
-                rotate: [0, 90]
+                opacity: (showContent && typingComplete) ? [0, 0.1, 0] : [0],
+                x: [randomX, randomX + 50, randomX],
+                y: [randomY, randomY + 25, randomY],
+                scale: [0.9, 1.1, 0.9]
               }}
               transition={{
-                duration: 12 + Math.random() * 6,
+                duration: 8 + Math.random() * 4,
                 repeat: Infinity,
-                delay: Math.random() * 4,
+                delay: Math.random() * 3,
                 ease: "easeInOut"
               }}
               style={{
                 position: 'absolute',
-                width: '6px',
-                height: '6px',
-                background: `hsl(${180 + Math.random() * 40}, 60%, 60%)`,
-                borderRadius: '50%',
+                width: i % 3 === 0 ? '10px' : '6px',
+                height: i % 3 === 0 ? '10px' : '6px',
+                background: i % 4 === 0 ? 
+                  'linear-gradient(45deg, #4a9d95, #5fb9b0)' :
+                  i % 4 === 1 ?
+                  'radial-gradient(circle, #4a9d95, #3d8b7e)' :
+                  i % 4 === 2 ?
+                  'conic-gradient(#4a9d95, #5fb9b0, #4a9d95)' :
+                  `hsl(${180 + Math.random() * 40}, 75%, 60%)`,
+                borderRadius: i % 3 === 0 ? '2px' : '50%',
                 pointerEvents: 'none',
                 zIndex: 1,
-                boxShadow: '0 0 4px rgba(74, 157, 149, 0.3)'
+                boxShadow: '0 0 12px rgba(74, 157, 149, 0.6)',
+                transform: `rotate(${Math.random() * 360}deg)`
+              }}
+            />
+            );
+          })}
+
+          {/* Energy Stream Lines */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`energy-${i}`}
+              animate={{
+                x: ['-5%', '120%'],
+                opacity: [0, 0.6, 0]
+              }}
+              transition={{
+                duration: 6 + Math.random() * 3,
+                repeat: Infinity,
+                delay: i * 2,
+                ease: "easeInOut"
+              }}
+              style={{
+                position: 'absolute',
+                top: `${20 + i * 30}%`,
+                left: 0,
+                width: '60px',
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent, #4a9d95, #5fb9b0, transparent)',
+                borderRadius: '1px',
+                pointerEvents: 'none',
+                zIndex: 1,
+                boxShadow: '0 0 8px rgba(74, 157, 149, 0.8)'
+              }}
+            />
+          ))}
+
+          {/* Hexagonal Tech Grid */}
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={`hex-${i}`}
+              animate={{
+                opacity: showContent ? [0, 0.08, 0] : [0],
+                scale: [0.9, 1.1, 0.9],
+                rotate: [0, 120, 240, 360]
+              }}
+              transition={{
+                duration: 20 + Math.random() * 10,
+                repeat: Infinity,
+                delay: i * 1.5,
+                ease: "easeInOut"
+              }}
+              style={{
+                position: 'absolute',
+                top: `${10 + (i % 4) * 25}%`,
+                left: `${5 + Math.floor(i / 4) * 90}%`,
+                width: '12px',
+                height: '12px',
+                border: '1px solid rgba(74, 157, 149, 0.3)',
+                clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                pointerEvents: 'none',
+                zIndex: 1,
+                filter: 'drop-shadow(0 0 4px rgba(74, 157, 149, 0.4))'
               }}
             />
           ))}
@@ -380,32 +597,83 @@ export default function OfficeTour({ onComplete }) {
               flexDirection: 'column',
               gap: 'clamp(0.8rem, 1.6vw, 1rem)'
             }}>
-              {/* Address Card */}
+              {/* Address Card - NO ZOOM on hover */}
               <motion.div 
                 style={{
-                  background: 'rgba(250, 244, 226, 0.9)',
-                  borderRadius: '10px',
+                  background: 'rgba(250, 244, 226, 0.95)',
+                  borderRadius: '12px',
                   padding: 'clamp(0.9rem, 1.8vw, 1.2rem)',
-                  border: '1px solid rgba(251, 191, 36, 0.3)',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                  border: '2px solid rgba(59, 130, 246, 0.3)',
+                  boxShadow: '0 4px 15px rgba(59, 130, 246, 0.1)',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
-                initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={{ 
                   opacity: showContent ? 1 : 0,
-                  x: showContent ? 0 : -30,
-                  scale: showContent ? 1 : 0.9
+                  x: showContent ? 0 : -30
                 }}
-                transition={{ delay: 1, duration: 0.5, type: "spring", stiffness: 200 }}
+                transition={{ delay: 1, duration: 0.6, type: "spring", stiffness: 150 }}
                 whileHover={{
-                  scale: 1.02,
-                  y: -3,
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                  boxShadow: '0 8px 20px rgba(59, 130, 246, 0.2)',
+                  borderColor: 'rgba(59, 130, 246, 0.5)',
                   transition: { duration: 0.2 }
                 }}
               >
-                {/* Game-style scan line */}
+                {/* Location Radar Effect */}
+                <motion.div
+                  animate={{
+                    scale: [0, 2, 0],
+                    opacity: [0.5, 0, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeOut"
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    right: '20px',
+                    width: '20px',
+                    height: '20px',
+                    border: '2px solid rgba(59, 130, 246, 0.5)',
+                    borderRadius: '50%',
+                    pointerEvents: 'none',
+                    transform: 'translate(50%, -50%)'
+                  }}
+                />
+
+                {/* Floating Location Markers */}
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={`location-marker-${i}`}
+                    animate={{
+                      y: [0, -10, 0],
+                      opacity: [0.3, 0.8, 0.3],
+                      scale: [0.8, 1.2, 0.8]
+                    }}
+                    transition={{
+                      duration: 3 + i * 0.5,
+                      repeat: Infinity,
+                      delay: i * 0.5,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: `${30 + i * 20}%`,
+                      right: `${15 + i * 5}px`,
+                      width: '5px',
+                      height: '5px',
+                      background: 'linear-gradient(45deg, #3b82f6, #60a5fa)',
+                      borderRadius: '50%',
+                      pointerEvents: 'none',
+                      boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)'
+                    }}
+                  />
+                ))}
+                
+                {/* Scan line */}
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ 
@@ -429,6 +697,7 @@ export default function OfficeTour({ onComplete }) {
                     borderRadius: '10px'
                   }}
                 />
+                
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -476,31 +745,95 @@ export default function OfficeTour({ onComplete }) {
                 </div>
               </motion.div>
 
-              {/* Contact Number Card */}
+              {/* Contact Number Card - NO ZOOM on hover */}
               <motion.div 
                 style={{
-                  background: 'rgba(250, 244, 226, 0.9)',
-                  borderRadius: '10px',
+                  background: 'rgba(250, 244, 226, 0.95)',
+                  borderRadius: '12px',
                   padding: 'clamp(0.9rem, 1.8vw, 1.2rem)',
-                  border: '1px solid rgba(251, 191, 36, 0.3)',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                  border: '2px solid rgba(251, 191, 36, 0.4)',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
-                initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={{ 
                   opacity: showContent ? 1 : 0,
-                  x: showContent ? 0 : -30,
-                  scale: showContent ? 1 : 0.9
+                  x: showContent ? 0 : -30
                 }}
-                transition={{ delay: 1.15, duration: 0.5, type: "spring", stiffness: 200 }}
+                transition={{ delay: 1.15, duration: 0.6, type: "spring", stiffness: 150 }}
                 whileHover={{
-                  scale: 1.02,
-                  y: -3,
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                  boxShadow: '0 8px 20px rgba(22, 163, 74, 0.15)',
+                  borderColor: 'rgba(22, 163, 74, 0.5)',
                   transition: { duration: 0.2 }
                 }}
               >
+                {/* Gaming Corner Effects */}
+                {[
+                  { top: '8px', left: '8px' },
+                  { top: '8px', right: '8px' },
+                  { bottom: '8px', left: '8px' },
+                  { bottom: '8px', right: '8px' }
+                ].map((pos, i) => (
+                  <motion.div
+                    key={`phone-corner-${i}`}
+                    animate={{
+                      opacity: [0.3, 0.8, 0.3],
+                      scale: [0.8, 1.2, 0.8]
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      ...pos,
+                      width: '4px',
+                      height: '4px',
+                      background: '#16a34a',
+                      borderRadius: '50%',
+                      pointerEvents: 'none',
+                      boxShadow: '0 0 8px rgba(22, 163, 74, 0.6)'
+                    }}
+                  />
+                ))}
+
+                {/* Floating Tech Particles */}
+                {[...Array(3)].map((_, i) => {
+                  const xParticleOffset = Math.sin(i * 2) * 8;
+                  return (
+                  <motion.div
+                    key={`phone-particle-${i}`}
+                    animate={{
+                      y: [0, -15, 0],
+                      x: [0, xParticleOffset, 0],
+                      opacity: [0.2, 0.6, 0.2],
+                      scale: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 4 + Math.random() * 2,
+                      repeat: Infinity,
+                      delay: i * 0.8,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: `${20 + i * 20}%`,
+                      right: '15px',
+                      width: '6px',
+                      height: '6px',
+                      background: 'linear-gradient(45deg, #16a34a, #22c55e)',
+                      borderRadius: '50%',
+                      pointerEvents: 'none',
+                      zIndex: 1,
+                      boxShadow: '0 0 6px rgba(22, 163, 74, 0.4)'
+                    }}
+                  />
+                  );
+                })}
+                
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ 
@@ -524,6 +857,7 @@ export default function OfficeTour({ onComplete }) {
                     borderRadius: '10px'
                   }}
                 />
+                
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -569,31 +903,80 @@ export default function OfficeTour({ onComplete }) {
                 </p>
               </motion.div>
 
-              {/* Email Card */}
+              {/* Email Card - NO ZOOM on hover */}
               <motion.div 
                 style={{
-                  background: 'rgba(250, 244, 226, 0.9)',
-                  borderRadius: '10px',
+                  background: 'rgba(250, 244, 226, 0.95)',
+                  borderRadius: '12px',
                   padding: 'clamp(0.9rem, 1.8vw, 1.2rem)',
-                  border: '1px solid rgba(251, 191, 36, 0.3)',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                  border: '2px solid rgba(124, 58, 237, 0.3)',
+                  boxShadow: '0 4px 15px rgba(124, 58, 237, 0.1)',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
-                initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={{ 
                   opacity: showContent ? 1 : 0,
-                  x: showContent ? 0 : -30,
-                  scale: showContent ? 1 : 0.9
+                  x: showContent ? 0 : -30
                 }}
-                transition={{ delay: 1.3, duration: 0.5, type: "spring", stiffness: 200 }}
+                transition={{ delay: 1.3, duration: 0.6, type: "spring", stiffness: 150 }}
                 whileHover={{
-                  scale: 1.02,
-                  y: -3,
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                  boxShadow: '0 8px 20px rgba(124, 58, 237, 0.2)',
+                  borderColor: 'rgba(124, 58, 237, 0.5)',
                   transition: { duration: 0.2 }
                 }}
               >
+                {/* Digital Wave Effect */}
+                <motion.div
+                  animate={{
+                    x: ['-100%', '200%'],
+                    opacity: [0, 0.4, 0]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent)',
+                    pointerEvents: 'none',
+                    borderRadius: '12px'
+                  }}
+                />
+
+                {/* Email Pulse Indicators */}
+                {[...Array(4)].map((_, i) => (
+                  <motion.div
+                    key={`email-pulse-${i}`}
+                    animate={{
+                      scale: [0, 1.5, 0],
+                      opacity: [0, 0.6, 0]
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      delay: i * 0.6,
+                      ease: "easeOut"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '20%',
+                      right: `${10 + i * 8}px`,
+                      width: '3px',
+                      height: '3px',
+                      background: '#7c3aed',
+                      borderRadius: '50%',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                ))}
+                
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ 
@@ -617,6 +1000,7 @@ export default function OfficeTour({ onComplete }) {
                     borderRadius: '10px'
                   }}
                 />
+                
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -663,21 +1047,19 @@ export default function OfficeTour({ onComplete }) {
               </motion.div>
             </div>
 
-            {/* Right Column - Interactive Map */}
+            {/* Right Column - Interactive Map - NO ZOOM on hover */}
             <motion.div 
               style={{
                 display: 'flex',
                 flexDirection: 'column'
               }}
-              initial={{ opacity: 0, x: 30, scale: 0.95 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ 
                 opacity: showContent ? 1 : 0,
-                x: showContent ? 0 : 30,
-                scale: showContent ? 1 : 0.95
+                x: showContent ? 0 : 30
               }}
               transition={{ delay: 1.45, duration: 0.6, type: "spring", stiffness: 150 }}
             >
-              {/* Map Container */}
               <motion.div 
                 onClick={handleMapClick}
                 style={{
@@ -685,20 +1067,90 @@ export default function OfficeTour({ onComplete }) {
                   height: '100%',
                   minHeight: '280px',
                   background: '#f3f4f6',
-                  borderRadius: '10px',
-                  border: '1px solid #c4c4c4',
+                  borderRadius: '12px',
+                  border: '2px solid #4a9d95',
                   overflow: 'hidden',
                   position: 'relative',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                  boxShadow: '0 4px 15px rgba(74, 157, 149, 0.2)',
                   cursor: 'pointer'
                 }}
                 whileHover={{
-                  scale: 1.01,
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                  boxShadow: '0 12px 30px rgba(74, 157, 149, 0.3)',
+                  borderColor: '#5fb9b0',
                   transition: { duration: 0.2 }
                 }}
-                whileTap={{ scale: 0.99 }}
+                whileTap={{ scale: 0.98 }}
+                animate={{
+                  boxShadow: [
+                    '0 4px 15px rgba(74, 157, 149, 0.2)',
+                    '0 6px 20px rgba(74, 157, 149, 0.3)',
+                    '0 4px 15px rgba(74, 157, 149, 0.2)'
+                  ]
+                }}
+                transition={{
+                  boxShadow: {
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }
+                }}
               >
+                {/* GPS Signal Rings */}
+                <motion.div
+                  animate={{
+                    scale: [1, 2, 1],
+                    opacity: [0.6, 0, 0.6]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '30px',
+                    height: '30px',
+                    border: '3px solid #4a9d95',
+                    borderRadius: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    pointerEvents: 'none',
+                    zIndex: 3
+                  }}
+                />
+
+                {/* Navigation Paths */}
+                {[...Array(4)].map((_, i) => (
+                  <motion.div
+                    key={`nav-path-${i}`}
+                    animate={{
+                      scaleX: [0, 1, 0],
+                      opacity: [0, 0.8, 0]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      delay: i * 0.8,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: `${20 + i * 15}%`,
+                      left: `${10 + i * 20}%`,
+                      width: '40px',
+                      height: '2px',
+                      background: 'linear-gradient(90deg, #4a9d95, #5fb9b0)',
+                      borderRadius: '1px',
+                      pointerEvents: 'none',
+                      zIndex: 3,
+                      transform: `rotate(${i * 45}deg)`,
+                      transformOrigin: 'left center',
+                      boxShadow: '0 0 6px rgba(74, 157, 149, 0.6)'
+                    }}
+                  />
+                ))}
+                
                 {/* Gaming-style UI corners */}
                 {[
                   { top: '5px', left: '5px' },
@@ -747,7 +1199,6 @@ export default function OfficeTour({ onComplete }) {
                   title="Office Location Map"
                 ></iframe>
                 
-                {/* Overlay for click detection */}
                 <div style={{
                   position: 'absolute',
                   top: 0,
@@ -823,20 +1274,12 @@ export default function OfficeTour({ onComplete }) {
               y: showContent ? 0 : 30
             }}
             transition={{ delay: 1.8, duration: 0.6 }}
-            whileHover={{
-              scale: 1.01,
-              boxShadow: '0 8px 20px rgba(0,0,0,0.12)',
-              transition: { duration: 0.2 }
-            }}
           >
             {/* Info Card Background Animation */}
             <motion.div
               animate={{
-                background: [
-                  'linear-gradient(45deg, rgba(74, 157, 149, 0.05) 0%, transparent 50%)',
-                  'linear-gradient(225deg, rgba(74, 157, 149, 0.05) 0%, transparent 50%)',
-                  'linear-gradient(45deg, rgba(74, 157, 149, 0.05) 0%, transparent 50%)'
-                ]
+                opacity: [0.3, 0.6, 0.3],
+                scale: [1, 1.02, 1]
               }}
               transition={{
                 duration: 4,
@@ -849,6 +1292,7 @@ export default function OfficeTour({ onComplete }) {
                 left: 0,
                 right: 0,
                 bottom: 0,
+                background: 'linear-gradient(45deg, rgba(74, 157, 149, 0.05) 0%, rgba(74, 157, 149, 0) 50%)',
                 borderRadius: '8px',
                 pointerEvents: 'none'
               }}
@@ -890,7 +1334,7 @@ export default function OfficeTour({ onComplete }) {
             }}
             transition={{ delay: 2, duration: 0.6 }}
           >
-            {/* Gaming-style Tech Particles */}
+            {/* Tech Particles */}
             {[...Array(4)].map((_, sparkleIndex) => (
               <motion.div
                 key={`tech-particle-${sparkleIndex}`}
@@ -942,7 +1386,7 @@ export default function OfficeTour({ onComplete }) {
                 boxShadow: '0 4px 12px rgba(74, 157, 149, 0.4)',
                 transition: 'all 0.3s ease',
                 textTransform: 'capitalize',
-                letterSpacing: '0.02em',
+                letterSpacing: '0.02em)',
                 position: 'relative',
                 overflow: 'hidden'
               }}
@@ -967,7 +1411,7 @@ export default function OfficeTour({ onComplete }) {
                 }
               }}
             >
-              {/* Gaming-style scan line effect */}
+              {/* Scan line effect */}
               <motion.div
                 animate={{
                   x: ['-120%', '220%']
@@ -996,19 +1440,6 @@ export default function OfficeTour({ onComplete }) {
           </motion.div>
         </motion.div>
       </motion.div>
-
-      <style>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </motion.div>
   );
 }

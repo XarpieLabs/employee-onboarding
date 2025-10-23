@@ -7,7 +7,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TypeWriter from '../TypeWriter';
-// import logoDark from '../../Asset/logoDark.png';
 
 export default function VideoPlayer({ onComplete }) {
   const [videoWatched, setVideoWatched] = useState(false);
@@ -15,6 +14,8 @@ export default function VideoPlayer({ onComplete }) {
   const [player, setPlayer] = useState(null);
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [headerAnimationComplete, setHeaderAnimationComplete] = useState(false);
+  const [isTyping, setIsTyping] = useState(true); // NEW: Controls typing phase
 
   const videoId = 'fTxW0Ll2KeI';
   const videoTitle = 'Manju Kesani at the Golisano';
@@ -81,40 +82,43 @@ export default function VideoPlayer({ onComplete }) {
       background: 'linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 100%)',
       position: 'relative'
     }}>
-      {/* Logo */}
-     {/* Logo
-<div style={{
-  marginBottom: 'clamp(0.5rem, 1vw, 0.75rem)',
-  animation: 'fadeInDown 0.8s ease-out'
-}}>
-  <img
-    src={logoDark}
-    alt="IndiVillage Technology"
-    style={{
-      height: 'clamp(25px, 3.5vw, 35px)',
-      width: 'auto'
-    }}
-  />
-</div> */}
-
       {/* Main Card */}
-      <div style={{ 
-        width: '100%', 
-        maxWidth: '1600px', // CONTROL WIDTH HERE - was 1400px, now 1600px for wider layout
-        background: 'white',
-        borderRadius: 'clamp(24px, 3vw, 32px)',
-        overflow: 'hidden',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-        border: '3px solid white'
-      }}>
-        {/* Header Section with Gradient */}
-        <div style={{
-          padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
+      <motion.div 
+        style={{ 
+          width: '100%', 
+          maxWidth: '1600px',
+          background: 'white',
+          borderRadius: 'clamp(24px, 3vw, 32px)',
+          overflow: 'hidden',
+          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+          border: '3px solid white'
+        }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0.3
+        }}
+      >
+        {/* Sequential Header Section */}
+        <motion.div 
+          style={{
+            padding: 'clamp(1.5rem, 3vw, 2rem) clamp(0.75rem, 1.5vw, 1.25rem)',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #4a9d95 0%, #5fb9b0 100%)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            ease: [0.22, 1, 0.36, 1],
+            delay: 0.2
+          }}
+          onAnimationComplete={() => setHeaderAnimationComplete(true)}
+        >
           {/* Decorative overlay */}
           <div style={{
             position: 'absolute',
@@ -136,13 +140,15 @@ export default function VideoPlayer({ onComplete }) {
             letterSpacing: '0.02em',
             lineHeight: '1.3'
           }}>
-            <TypeWriter 
-              key="video-header"
-              text="Welcome Message from Leadership"
-              speed={50}
-              delay={500}
-              onComplete={() => setShowSubtitle(true)}
-            />
+            {headerAnimationComplete && (
+              <TypeWriter 
+                key="video-header"
+                text="Welcome Message from Leadership"
+                speed={50}
+                delay={200}
+                onComplete={() => setShowSubtitle(true)}
+              />
+            )}
           </h1>
           <div style={{
             fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
@@ -158,11 +164,14 @@ export default function VideoPlayer({ onComplete }) {
                 text="Watch this important message from our leadership team"
                 speed={30}
                 delay={0}
-                onComplete={() => setShowContent(true)}
+                onComplete={() => {
+                  setShowContent(true);
+                  setIsTyping(false);
+                }}
               />
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Content Section */}
         <motion.div 
@@ -175,32 +184,60 @@ export default function VideoPlayer({ onComplete }) {
             opacity: showContent ? 1 : 0, 
             y: showContent ? 0 : 20 
           }}
-          transition={{ duration: 0.6 }}
+          transition={{ 
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+            delay: 0.2
+          }}
         >
           {/* Video Title */}
-          <h3 style={{
-            fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-            fontWeight: '600',
-            color: '#1a365d',
-            marginBottom: 'clamp(1rem, 2vw, 1.5rem)',
-            textAlign: 'center',
-            margin: '0 0 clamp(1rem, 2vw, 1.5rem) 0'
-          }}>
+          <motion.h3 
+            style={{
+              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontWeight: '600',
+              color: '#1a365d',
+              marginBottom: 'clamp(1rem, 2vw, 1.5rem)',
+              textAlign: 'center',
+              margin: '0 0 clamp(1rem, 2vw, 1.5rem) 0'
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 20
+            }}
+            transition={{ 
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.3
+            }}
+          >
             {videoTitle}
-          </h3>
+          </motion.h3>
 
-          {/* Video Container - 10% smaller */}
-          <div style={{
-            maxWidth: '90%', // CONTROL VIDEO SIZE HERE - reduces video to 90% of container width
-            margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)',
-            position: 'relative',
-            paddingBottom: '50.625%', // 90% of 56.25% = 50.625% for aspect ratio
-            height: 0,
-            overflow: 'hidden',
-            borderRadius: '12px',
-            background: '#000',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
-          }}>
+          {/* Video Container */}
+          <motion.div 
+            style={{
+              maxWidth: '90%',
+              margin: '0 auto clamp(1.5rem, 2.5vw, 2rem)',
+              position: 'relative',
+              paddingBottom: '50.625%',
+              height: 0,
+              overflow: 'hidden',
+              borderRadius: '12px',
+              background: '#000',
+              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 20
+            }}
+            transition={{ 
+              duration: 0.6,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.4
+            }}
+          >
             <div 
               ref={playerRef}
               style={{
@@ -211,17 +248,29 @@ export default function VideoPlayer({ onComplete }) {
                 height: '100%'
               }}
             />
-          </div>
+          </motion.div>
 
           {/* Status Message */}
-          <div style={{
-            padding: 'clamp(1rem, 2vw, 1.25rem)',
-            background: videoWatched ? 'rgba(209, 250, 229, 0.9)' : 'rgba(254, 243, 199, 0.9)',
-            borderRadius: '12px',
-            marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
-            border: videoWatched ? '2px solid #52b788' : '2px solid #f59e0b',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
-          }}>
+          <motion.div 
+            style={{
+              padding: 'clamp(1rem, 2vw, 1.25rem)',
+              background: videoWatched ? 'rgba(209, 250, 229, 0.9)' : 'rgba(254, 243, 199, 0.9)',
+              borderRadius: '12px',
+              marginBottom: 'clamp(1.5rem, 2.5vw, 2rem)',
+              border: videoWatched ? '2px solid #52b788' : '2px solid #f59e0b',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 20
+            }}
+            transition={{ 
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.5
+            }}
+          >
             <p style={{
               margin: 0,
               fontSize: 'clamp(0.9rem, 1.9vw, 1.05rem)',
@@ -238,14 +287,26 @@ export default function VideoPlayer({ onComplete }) {
                 ? 'Video completed! Click continue to proceed.'
                 : 'Please watch all videos completely to continue with your onboarding.'}
             </p>
-          </div>
+          </motion.div>
 
           {/* Continue Button */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <button
+          <motion.div 
+            style={{
+              display: 'flex',
+              justifyContent: 'center'
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 20
+            }}
+            transition={{ 
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.6
+            }}
+          >
+            <motion.button
               onClick={onComplete}
               disabled={!videoWatched}
               style={{
@@ -263,37 +324,18 @@ export default function VideoPlayer({ onComplete }) {
                 letterSpacing: '0.02em',
                 opacity: videoWatched ? 1 : 0.6
               }}
-              onMouseEnter={(e) => {
-                if (videoWatched) {
-                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(132, 204, 22, 0.4), 0 3px 8px rgba(0, 0, 0, 0.15)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (videoWatched) {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(132, 204, 22, 0.35), 0 2px 6px rgba(0, 0, 0, 0.1)';
-                }
-              }}
+              whileHover={videoWatched ? {
+                y: -2,
+                boxShadow: '0 8px 25px rgba(132, 204, 22, 0.4), 0 3px 8px rgba(0, 0, 0, 0.15)',
+                transition: { duration: 0.2 }
+              } : {}}
+              whileTap={videoWatched ? { scale: 0.98 } : {}}
             >
               {videoWatched ? 'Continue to Q&A with CEO' : 'Complete Video to Continue'}
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </motion.div>
-      </div>
-
-      <style>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+      </motion.div>
     </div>
   );
 }
